@@ -1,5 +1,6 @@
 import './style/app.styl'
 import * as THREE from 'three'
+import LoadingScreen from './classes/LoadingScreen'
 
 const sizes = {}
 sizes.width = window.innerWidth
@@ -20,11 +21,16 @@ window.addEventListener('mousemove', (_event) => {
  */
 const scene = new THREE.Scene()
 
+const loadingScreen = new LoadingScreen()
+loadingScreen.group.position.z = - 20
+loadingScreen.group.rotation.y = Math.PI / 4
+scene.add(loadingScreen.group)
 
-scene.add(new THREE.Mesh(
-    new THREE.TorusGeometry(1, .7, 12, 32),
-    new THREE.MeshNormalMaterial()
-))
+
+// scene.add(new THREE.Mesh(
+//     new THREE.TorusGeometry(1, .7, 12, 32),
+//     new THREE.MeshNormalMaterial()
+// ))
 
 /**
  * Camera
@@ -60,10 +66,10 @@ window.addEventListener('resize', () => {
 const loop = () => {
     window.requestAnimationFrame(loop)
 
-    camera.position.x = cursor.x * 40
-    camera.position.y = -cursor.y * 40
+    camera.position.x = cursor.x * 20
+    camera.position.y = -cursor.y * 20
 
-    camera.lookAt(scene.position)
+    // camera.lookAt(scene.position)
 
     // Render
     renderer.render(scene, camera)
