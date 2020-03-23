@@ -3,12 +3,6 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "webpack --mode=production --config ./bundler/webpack.config.js",
-        "dev": "webpack-dev-server --mode=development --config ./bundler/webpack.config.js",
-        "watch": "webpack --mode=development --watch --config ./bundler/webpack.config.js"
-    },
     "author": "",
     "license": "ISC",
     "dependencies": {},
@@ -30,5 +24,11 @@
         "webpack": "^4.41.5",
         "webpack-cli": "^3.3.10",
         "webpack-dev-server": "^3.10.3"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "webpack --mode=production --config ./bundler/webpack.config.js",
+        "dev": "webpack-dev-server --mode=development --config ./bundler/webpack.config.js",
+        "watch": "webpack --mode=development --watch --config ./bundler/webpack.config.js"
     }
 }
