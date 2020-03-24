@@ -4,7 +4,9 @@ import {TimelineMax} from 'gsap/all'
 import Context from './Context'
 import Statue from './Statue'
 import floorColorSource from './../textures/floor/WoodFlooringMerbauBrickBondNatural001_COL_3K.jpg'
+import floorNormalSource from './../textures/floor/WoodFlooringMerbauBrickBondNatural001_NRM_3K.png'
 import wallColorSource from './../textures/floor2/Brick_wall_006_COLOR.jpg'
+import wallNormalSource from './../textures/floor2/Brick_wall_006_NRM.jpg'
 
 export default class GreeceRoom {
 
@@ -14,6 +16,8 @@ export default class GreeceRoom {
         this.controls = controls
         this.context =  new Context()
         this.statue = []
+        this.statueOn = null;
+        this.groupLightOn = new THREE.Group()
         this.createRoom()
         this.createAllStatue()
         this.moveCamera()
@@ -27,21 +31,18 @@ export default class GreeceRoom {
                     if(result.hover && !result.active)
                     {
                         result.active = true
-
-
-
+                        this.statueOn = result
                         result.animateStatue(this.camera)
 
 
                         const statueLight = new THREE.SpotLight(0xffffff, 0.6)
                         statueLight.penumbra = 1
-                        const statueLighthelp = new THREE.SpotLightHelper(statueLight,1)
-                        this.group.add(statueLighthelp)
 
-                        this.group.add(statueLight)
+                        this.groupLightOn.add(statueLight)
+                        this.group.add(this.groupLightOn)
                         statueLight.target = result.model
 
-                        result.model.scale.set(result.scale,result.scale,result.scale)
+                        result.model.scale.set(result.scaleTo,result.scaleTo,result.scaleTo)
                         this.controls.enabled = false
                         this.showModel(result)
 
@@ -49,6 +50,27 @@ export default class GreeceRoom {
                 })
             }
         )
+        document.querySelector('.buttonQuitMenu').addEventListener(
+            'click',
+            ()=>
+            {
+                if(this.statueOn != null)
+                {
+                    this.statueOn.active = false
+                    this.statueOn.animation.kill()
+                    this.controls.enabled = true
+                    this.statueOn.outContainerInformation()
+                    this.groupLightOn.remove(this.groupLightOn.children[0])
+                    console.log(this.statueOn.scale)
+                    this.statueOn.model.scale.set(this.statueOn.scale,this.statueOn.scale,this.statueOn.scale)
+                    this.statueOn.scene.position.y -= 1
+                    this.statueOn.model.rotation.y = this.statueOn.rotYStart
+                    this.statueOn = null
+
+                }
+            })
+
+
     }
 
     createRoom()
@@ -58,22 +80,34 @@ export default class GreeceRoom {
         floorColorTexture.wrapT = THREE.RepeatWrapping
         floorColorTexture.repeat.x = 4
         floorColorTexture.repeat.y = 4
+        const floorNormalTexture = this.context.textureLoader.load(floorNormalSource)
+        floorNormalTexture.wrapS = THREE.RepeatWrapping
+        floorNormalTexture.wrapT = THREE.RepeatWrapping
+        floorNormalTexture.repeat.x = 4
+        floorNormalTexture.repeat.y = 4
 
         const wallColorTexture = this.context.textureLoader.load(wallColorSource)
         wallColorTexture.wrapS = THREE.RepeatWrapping
         wallColorTexture.wrapT = THREE.RepeatWrapping
         wallColorTexture.repeat.x = 4
         wallColorTexture.repeat.y = 4
+        const wallNormalTexture = this.context.textureLoader.load(wallNormalSource)
+        wallNormalTexture.wrapS = THREE.RepeatWrapping
+        wallNormalTexture.wrapT = THREE.RepeatWrapping
+        wallNormalTexture.repeat.x = 4
+        wallNormalTexture.repeat.y = 4
 
 
         const wallMaterial = new THREE.MeshStandardMaterial(
             {
-                map: wallColorTexture
+                map: wallColorTexture,
+                normalMap:wallNormalTexture
             }
         )
         const floorMaterial = new THREE.MeshStandardMaterial(
             {
-                map: floorColorTexture
+                map: floorColorTexture,
+                normalMap: floorNormalTexture
             }
         )
         const wallNSGeometry = new THREE.PlaneGeometry(10,6,20,5)
@@ -142,29 +176,9 @@ export default class GreeceRoom {
     async createAllStatue()
     {
 
-        const  venusMilo = new Statue(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z")
-       // this.statue[0] = venusMilo
-
-
-        const nikeSamo = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,1.5708 * 2,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y")
-      //  this.statue[1] = nikeSamo
-
-        /*
-                this.statue[1].model = this.statue[1].model.children[0].children[0].children[0].children[0].children[0]
-                this.statue[1].model.scale.set(3.5,3.5,3.5)
-                this.statue[1].model.position.y = 0
-                this.statue[1].model.position.x = 4
-                this.statue[1].model.position.z = 4
-                this.statue[1].model.rotation.y = 1.5708 * 2
-                this.statue[1].posXView = this.statue[1].model.position.x - 2
-                this.statue[1].posYView = 2
-                this.statue[1].posZView = 1
-                this.statue[1].rotXView = -1.5708 * 2
-                this.statue[1].rotYView = 0
-                this.statue[1].rotZView = -1.5708 * 2
-                this.statue[1].scale = 2.5
-                this.statue[1].axeToRotate = "y"
-                this.statue[1].active = false*/
+        const  venusMilo = new Statue(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right")
+        const nikeSamo = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,1.5708 * 2,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left")
+        const nikeSamo2 = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,0,4,1.5708 * 2,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left")
 
     }
 
@@ -194,15 +208,19 @@ export default class GreeceRoom {
     showModel(statue)
     {
         window.requestAnimationFrame(() => {this.showModel(statue)})
-        if(statue.axeToRotate == "y")
+        if(this.statueOn == statue)
         {
-            statue.model.rotation.y += 0.01
+            if(statue.axeToRotate == "y")
+            {
+                statue.model.rotation.y += 0.01
 
+            }
+            else
+            {
+                statue.model.rotation.z += 0.01
+            }
         }
-        else
-        {
-            statue.model.rotation.z += 0.01
-        }
+
     }
 
 }

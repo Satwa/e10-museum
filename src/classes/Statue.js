@@ -6,14 +6,14 @@ import * as THREE from "three";
 
 export default class Class {
 
-    constructor(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate)
+    constructor(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
     {
         this.context = new Context()
-        this.update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate)
+        this.update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
     }
 
 
-    async update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate)
+    async update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
     {
         const statue =  await this.addStatue(addTo,path)
         this.scene = addTo.statue[addTo.statue.length-1].scene
@@ -22,25 +22,26 @@ export default class Class {
         {
             this.model = this.model.children[0]
         }
+        this.direction = direction
         this.model.scale.set(scale,scale,scale)
         this.model.position.y = posY
         this.model.position.x = posX
         this.model.position.z = posZ
         this.model.rotation.y = rotY
+        this.rotYStart = rotY
         this.posXView = this.model.position.x + posXView
         this.posYView = posYView
         this.posZView = posZView
         this.rotXView = rotXView
         this.rotYView = rotYView
         this.rotZView = rotZView
-        this.scale = scaleTo
+        this.scale = scale
+        this.scaleTo = scaleTo
         this.hover = false
-        this.axeToRotate = axeToRotate
         this.active = false
+        this.axeToRotate = axeToRotate
 
         addTo.statue[addTo.statue.length-1] = this
-
-        console.log(this)
     }
 
     addStatue(addTo,path)
@@ -101,22 +102,22 @@ export default class Class {
         )
 
 
-        const t1 = new TimelineMax({})
-        t1.from(
+        this.animation = new TimelineMax({})
+        this.animation.from(
             this.scene.position,
             1,
             {
                 y: 1.1,
                 ease: "power2.inOut"
             })
-        t1.to(
+        this.animation.to(
             this.scene.position,
             1,
             {
                 y: 1,
                 ease: "power2.inOut"
             })
-        t1.to(
+        this.animation.to(
             this.scene.position,
             1,
             {
@@ -125,7 +126,90 @@ export default class Class {
             })
 
 
-        t1.repeat(-1)
+
+
+        this.animation.repeat(-1)
+        this.getContainerInformation()
+
+    }
+
+    getContainerInformation()
+    {
+
+        let start,end
+
+        if(this.direction == "left")
+        {
+            start = "translateX(100vw)"
+            end = "translateX(50vw)"
+        }
+        else
+        {
+            start = "translateX(-50vw)"
+            end = "translateX(0vw)"
+        }
+
+        TweenLite.from(
+            "#containerInformation",
+            2,
+            {
+                display: "block",
+                opacity:0,
+                transform:start,
+                ease: 'Power3.easeInOut'
+            }
+        ).delay(1)
+
+        TweenLite.to(
+            "#containerInformation",
+            2,
+            {
+                display: "block",
+                opacity : 1,
+                transform: end,
+                ease: 'Power3.easeInOut'
+            }
+        ).delay(1)
+
+    }
+
+    outContainerInformation()
+    {
+
+        let start,end
+
+        if(this.direction == "left")
+        {
+            start = "translateX(50vw)"
+            end = "translateX(100vw)"
+        }
+        else
+        {
+            start = "translateX(0vw)"
+            end = "translateX(-50vw)"
+        }
+
+        TweenLite.from(
+            "#containerInformation",
+            2,
+            {
+                display: "block",
+                opacity:1,
+                transform:start,
+                ease: 'Power3.easeInOut'
+            }
+        )
+
+        TweenLite.to(
+            "#containerInformation",
+            2,
+            {
+                display: "none",
+                opacity : 0,
+                transform: end,
+                ease: 'Power3.easeInOut'
+            }
+        )
 
     }
 }

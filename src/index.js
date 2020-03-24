@@ -81,12 +81,13 @@ window.addEventListener('resize', () => {
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.2)
 scene.add(ambientLight)
-
+/*
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
 directionalLight.position.x = 5
 directionalLight.position.y = 5
 directionalLight.position.z = 5
 scene.add(directionalLight)
+*/
 
 /**
  * Objet
