@@ -28,7 +28,7 @@ export default class GreeceRoom {
             {
                 this.statue.forEach((result)=>
                 {
-                    if(result.hover && !result.active)
+                    if(result.hover && !result.active && this.statueOn == null)
                     {
                         result.active = true
                         this.statueOn = result
@@ -66,11 +66,8 @@ export default class GreeceRoom {
                     this.statueOn.scene.position.y -= 1
                     this.statueOn.model.rotation.y = this.statueOn.rotYStart
                     this.statueOn = null
-
                 }
             })
-
-
     }
 
     createRoom()
@@ -142,8 +139,6 @@ export default class GreeceRoom {
 
         const room = new THREE.Group()
 
-
-
         room.add(floor)
         room.add(roof)
         room.add(wallN)
@@ -212,12 +207,12 @@ export default class GreeceRoom {
         {
             if(statue.axeToRotate == "y")
             {
-                statue.model.rotation.y += 0.01
+                statue.model.rotation.y += 0.007
 
             }
             else
             {
-                statue.model.rotation.z += 0.01
+                statue.model.rotation.z += 0.007
             }
         }
 
