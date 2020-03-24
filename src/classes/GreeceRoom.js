@@ -176,9 +176,9 @@ export default class GreeceRoom {
     async createAllStatue()
     {
 
-        const  venusMilo = new Statue(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right")
-        const nikeSamo = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,1.5708 * 2,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left")
-        const nikeSamo2 = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,0,4,1.5708 * 2,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left")
+        const  venusMilo = new Statue(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right")
+        const nikeSamo = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left")
+        const nikeSamo2 = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,0,4,0, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left")
 
     }
 

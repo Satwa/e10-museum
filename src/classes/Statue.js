@@ -6,14 +6,14 @@ import * as THREE from "three";
 
 export default class Class {
 
-    constructor(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
+    constructor(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX,rotY,rotZ,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
     {
         this.context = new Context()
-        this.update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
+        this.update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX,rotY,rotZ,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
     }
 
 
-    async update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
+    async update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX,rotY,rotZ,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
     {
         const statue =  await this.addStatue(addTo,path)
         this.scene = addTo.statue[addTo.statue.length-1].scene
@@ -27,7 +27,9 @@ export default class Class {
         this.model.position.y = posY
         this.model.position.x = posX
         this.model.position.z = posZ
+        this.model.rotation.x = rotX
         this.model.rotation.y = rotY
+        this.model.rotation.z = rotZ
         this.rotYStart = rotY
         this.posXView = this.model.position.x + posXView
         this.posYView = posYView

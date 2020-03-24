@@ -2,6 +2,7 @@ import './style/app.styl'
 import * as THREE from 'three'
 import LoadingScreen from './classes/LoadingScreen'
 import GreeceRoom from './classes/GreeceRoom'
+import RenaissanceRoom from './classes/RenaissanceRoom'
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js'
 
 
@@ -101,7 +102,10 @@ scene.add(loadingScreen.group)
 
 
 // Greece Room
-const greeceRoom = new GreeceRoom(camera,controls)
+// const greeceRoom = new GreeceRoom(camera,controls)
+// greeceRoom.group.position.x = 0
+// scene.add(greeceRoom.group)
+const greeceRoom = new RenaissanceRoom(camera,controls)
 greeceRoom.group.position.x = 0
 scene.add(greeceRoom.group)
 
