@@ -54,7 +54,7 @@ scene.add(camera)
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(window.devicePixelRatio)
-renderer.shadowMap.enabled = false;
+renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFShadowMap;
 
 document.body.appendChild(renderer.domElement)
@@ -104,13 +104,24 @@ scene.add(loadingScreen.group)
 
 
 // Greece Room
-// const greeceRoom = new GreeceRoom(camera,controls,scene)
-// greeceRoom.group.position.x = 0
-// scene.add(greeceRoom.group)
+const greeceRoom = new GreeceRoom(camera,controls,scene)
+greeceRoom.group.position.x = 0
+scene.add(greeceRoom.group)
 
+// Renaissance Room
 const renaissanceRoom = new RenaissanceRoom(camera, controls, scene)
 renaissanceRoom.group.position.x = 0
+renaissanceRoom.group.visible = false
 scene.add(renaissanceRoom.group)
+
+
+// debug room switch
+window.addEventListener("keydown", (_event) => {
+    if(_event.key == "p" || _event.key == "P"){
+        greeceRoom.group.visible = !greeceRoom.group.visible
+        renaissanceRoom.group.visible = !renaissanceRoom.group.visible
+    }
+})
 
 /**
  * Loop
@@ -118,7 +129,8 @@ scene.add(renaissanceRoom.group)
 const clock = new THREE.Clock();
 const loop = () => {
     window.requestAnimationFrame(loop)
-    // greeceRoom.hoverStatue()
+
+    greeceRoom.hoverStatue()
     renaissanceRoom.hoverStatue()
     // camera.lookAt(scene.position)
     // Render

@@ -174,7 +174,8 @@ export default class RenaissanceRoom {
 
 
     async createAllStatue() {
-        const david = new Statue(
+        const david = new Statue()
+        await david.update(
             this,
             '/models/david/12330_Statue_v1_L2.gltf',
             0,
@@ -185,7 +186,7 @@ export default class RenaissanceRoom {
             -Math.PI / 10, Math.PI, 0,
             .008,
             "x", "left",
-            "TEXT DAVID"
+            document.querySelector("#davidMichelangelo")
         )
 
         const monaLisa = new Frame(
