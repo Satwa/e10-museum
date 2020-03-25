@@ -20,8 +20,8 @@ export default class GreeceRoom {
         this.statueOn = null;
         this.groupLightOn = new THREE.Group()
         this.createRoom()
-        this.createAllStatue()
         this.moveCamera()
+        this.init()
 
         window.addEventListener(
             'click',
@@ -72,6 +72,22 @@ export default class GreeceRoom {
                     this.statueOn = null
                 }
             })
+
+    }
+
+    async init()
+    {
+        const wait = await this.createAllStatue()
+
+        return new Promise((resolve) =>
+        {
+            console.log(this.statue.length)
+            if(this.statue.length == 3)
+            {
+                console.log("grezfdef")
+                resolve('tinregdf,ieq')
+            }
+        })
     }
 
     createRoom()
@@ -155,7 +171,7 @@ export default class GreeceRoom {
         wallO.castShadow = false
         wallO.receiveShadow = true
 
-        const lightRoom1 = new THREE.SpotLight(0xffcc00,0.5)
+        const lightRoom1 = new THREE.SpotLight(0xffcc00,0.8)
         lightRoom1.position.y = 4.9
         lightRoom1.position.x = 0
         lightRoom1.position.z = 0
@@ -201,10 +217,17 @@ export default class GreeceRoom {
 
     async createAllStatue()
     {
+        return new Promise(async (resolve) =>
+        {
+            const  venusMilo = new Statue()
+            const nikeSamo =  new Statue()
+            const hercule =  new Statue()
+            await venusMilo.update(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'))
+            await nikeSamo.update(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'))
+            await hercule.update(this,'/models/hercule/scene.gltf',3,0.12,-10.25,0.5,8.9,-0.39, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,0.10,"y","left",document.querySelector('#hercule'))
+            resolve('succes')
+        })
 
-        const  venusMilo = new Statue(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'))
-        const nikeSamo = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'))
-        const hercule = new Statue(this,'/models/hercule/scene.gltf',3,0.12,-10.25,0.5,8.9,-0.39, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,0.10,"y","left",document.querySelector('#hercule'))
     }
 
     hoverStatue()
