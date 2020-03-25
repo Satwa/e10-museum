@@ -31,7 +31,19 @@ export default class Class {
         this.model.rotation.x = rotX
         this.model.rotation.y = rotY
         this.model.rotation.z = rotZ
-
+        this.rotYStart = rotY
+        this.posXView = this.model.position.x + posXView
+        this.posYView = posYView
+        this.posZView = posZView
+        this.rotXView = rotXView
+        this.rotYView = rotYView
+        this.rotZView = rotZView
+        this.scale = scale
+        this.scaleTo = scaleTo
+        this.hover = false
+        this.active = false
+        this.axeToRotate = axeToRotate
+        this.$contentInfo = $contentInfo
         this.model.children.forEach((resultat) =>
         {
             resultat.castShadow = true
