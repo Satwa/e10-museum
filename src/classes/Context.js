@@ -16,6 +16,8 @@ export default class Context {
         this.dracoLoader.setDecoderPath('/draco/')
         this.gltfLoader = new GLTFLoader()
         this.gltfLoader.setDRACOLoader(this.dracoLoader)
+        this.totalLoad = 0
+        this.currentLoad = 0
 
         window.addEventListener('mousemove', (_event) => {
             this.cursorX = _event.clientX / this.sizesWidth - 0.5

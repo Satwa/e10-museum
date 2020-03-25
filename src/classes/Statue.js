@@ -6,9 +6,9 @@ import * as THREE from "three";
 
 export default class Class {
 
-    constructor()
+    constructor(context)
     {
-        this.context = new Context()
+        this.context =  context
     }
 
 
@@ -55,6 +55,9 @@ export default class Class {
     {
         return new Promise((resolve) =>
         {
+            let getTotalLoad = false
+            let loaded = 0
+
             this.context.gltfLoader.load(
                 path,
                 (_gltf) =>
@@ -64,11 +67,21 @@ export default class Class {
                         {
                             scene:statue,
                         })
-
                     addTo.group.add(statue)
                     this.scene.traverse(obj => obj.frustumCulled = false);
                     resolve('succes')
+                },
+                (_gltf) =>
+                {
+                    if(!getTotalLoad)
+                    {
+                        this.context.totalLoad = this.context.totalLoad +  _gltf.total
+                        getTotalLoad = true
+                    }
+                    this.context.currentLoad +=  _gltf.loaded - loaded
+                    loaded =  _gltf.loaded
                 }
+
             )
         })
     }

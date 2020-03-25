@@ -77,14 +77,12 @@ export default class GreeceRoom {
 
     async init()
     {
-        const wait = await this.createAllStatue()
-
+        await this.createAllStatue()
         return new Promise((resolve) =>
         {
-            console.log(this.statue.length)
-            if(this.statue.length == 3)
+            if(this.context.currentLoad == this.context.totalLoad)
             {
-                console.log("grezfdef")
+                console.log("C'est chargé")
                 resolve('tinregdf,ieq')
             }
         })
@@ -220,12 +218,13 @@ export default class GreeceRoom {
     {
         return new Promise(async (resolve) =>
         {
-            const  venusMilo = new Statue()
-            const nikeSamo =  new Statue()
-            const hercule =  new Statue()
+            const hercule =  new Statue(this.context)
+            const  venusMilo = new Statue(this.context)
+            const nikeSamo =  new Statue(this.context)
+            await hercule.update(this,'/models/hercule/scene.gltf',3,0.12,-10.25,0.5,8.9,-0.39, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,0.10,"y","left",document.querySelector('#hercule'))
+
             await venusMilo.update(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'))
             await nikeSamo.update(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'))
-            await hercule.update(this,'/models/hercule/scene.gltf',3,0.12,-10.25,0.5,8.9,-0.39, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,0.10,"y","left",document.querySelector('#hercule'))
             resolve('load')
         })
 
