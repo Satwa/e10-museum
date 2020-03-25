@@ -40,10 +40,8 @@ scene.add(camera)
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(window.devicePixelRatio)
-renderer.shadowMap.enabled = true
+renderer.shadowMap.enabled = false
 renderer.shadowMap.type = THREE.PCFShadowMap;
-renderer.gammaOutput = true
-renderer.gammaFactor = 2.2
 document.body.appendChild(renderer.domElement)
 
 /**

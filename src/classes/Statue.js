@@ -51,9 +51,18 @@ export default class Class {
         this.active = false
         this.axeToRotate = axeToRotate
         this.$contentInfo = $contentInfo
-        this.model.children.forEach((resultat) =>
+        this.model.children.forEach((mesh) =>
         {
-            resultat.castShadow = true
+            mesh.castShadow = true
+            mesh.frustumCulled = false;
+
+            mesh.onAfterRender = function(){
+
+                mesh.frustumCulled = true;
+
+                mesh.onAfterRender = function(){};
+
+            };
         })
         addTo.statue[addTo.statue.length-1] = this
     }
@@ -75,7 +84,6 @@ export default class Class {
                             scene:statue,
                         })
                     addTo.group.add(statue)
-                    this.scene.traverse(obj => obj.frustumCulled = false);
                     this.context.updateProgressePourcent()
                     resolve('succes')
                 },

@@ -229,9 +229,10 @@ export default class GreeceRoom {
         {
             if(result.hover && !result.active && this.statueOn == null)
             {
+                result.animateStatue(this.camera)
+
                 result.active = true
                 this.statueOn = result
-                result.animateStatue(this.camera)
 
 
                 const statueLight = new THREE.SpotLight(0xffffff, 0.5)
@@ -278,12 +279,12 @@ export default class GreeceRoom {
         if(this.statueOn != null)
         {
             this.statueOn.active = false
-            this.statueOn.animation.kill()
             this.controls.enabled = true
             this.statueOn.outContainerInformation()
             this.groupLightOn.remove(this.groupLightOn.children[0])
             this.statueOn.model.scale.set(this.statueOn.scale,this.statueOn.scale,this.statueOn.scale)
             this.statueOn.scene.position.y -= 1
+            this.statueOn.animation.kill()
             if(this.statueOn.axeToRotate == 'y')
             {
                 this.statueOn.model.rotation.y = this.statueOn.rotYStart
