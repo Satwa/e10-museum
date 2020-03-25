@@ -22,6 +22,7 @@ export default class Context {
         this.currentLoad = 0
         this.nbCurrentModelImport = 0
         this.nbModelImport = 0
+        this.countHover = 0
 
         window.addEventListener('mousemove', (_event) => {
             this.cursorX = _event.clientX / this.sizesWidth - 0.5

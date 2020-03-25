@@ -184,28 +184,39 @@ export default class GreeceRoom {
             await venusMilo.update(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'))
             await nikeSamo.update(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'))
             resolve('load')
+            console.log(hercule)
+            console.log(venusMilo)
+            console.log(nikeSamo)
         })
 
     }
 
     hoverStatue()
     {
+
         const raycasterCursor = new THREE.Vector2(this.context.cursorX * 2, - this.context.cursorY * 2 )
         this.context.raycaster.setFromCamera(raycasterCursor,this.camera)
         this.statue.forEach((result) =>
         {
             if(result.model)
             {
-                const intersects = this.context.raycaster.intersectObject(result.model.children[0])
-
+                const intersects = this.context.raycaster.intersectObject(result.scene,true)
                 if(intersects.length)
-                {
-                    result.hover = true
-                }
-                else
-                {
-                    result.hover = false
-                }
+                    {
+                        this.context.countHover = 0
+                        result.hover = true
+                        document.body.classList.add('on')
+                    }
+                    else
+                    {
+                        this.context.countHover++
+                        result.hover = false
+                        if(this.context.countHover > 3)
+                        {
+                            document.body.classList.remove('on')
+                        }
+                    }
+
             }
         })
 
