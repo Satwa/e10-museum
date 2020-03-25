@@ -115,17 +115,7 @@ export default class RenaissanceRoom {
         floorRoughnessTexture.wrapT = THREE.RepeatWrapping
         floorRoughnessTexture.repeat.x = 4
         floorRoughnessTexture.repeat.y = 4
-        // const floorNormalTexture = this.context.textureLoader.load(floorNormalSource)
-        // floorNormalTexture.wrapS = THREE.RepeatWrapping
-        // floorNormalTexture.wrapT = THREE.RepeatWrapping
-        // floorNormalTexture.repeat.x = 4
-        // floorNormalTexture.repeat.y = 4
 
-        // const wallColorTexture = this.context.textureLoader.load(wallColorSource)
-        // wallColorTexture.wrapS = THREE.RepeatWrapping
-        // wallColorTexture.wrapT = THREE.RepeatWrapping
-        // wallColorTexture.repeat.x = 4
-        // wallColorTexture.repeat.y = 4
         this.wallNormalTexture = this.context.textureLoader.load(wallNormalSource)
         const wallNormalTexture = this.wallNormalTexture
         wallNormalTexture.wrapS = THREE.RepeatWrapping
@@ -138,12 +128,10 @@ export default class RenaissanceRoom {
             map: floorColorTexture,
             bumpMap: floorBumpTexture,
             roughnessMap: floorRoughnessTexture
-            // normalMap: floorNormalTexture
         })
 
         const wallMaterial = new THREE.MeshStandardMaterial({
             color: 0x5e1612,
-            // map: wallColorTexture,
             normalMap: wallNormalTexture
         })
         
@@ -155,9 +143,14 @@ export default class RenaissanceRoom {
         const floor = new THREE.Mesh(floorGeometry, floorMaterial)
         floor.rotation.x = -1.5708
 
-        const roof = new THREE.Mesh(floorGeometry, floorMaterial)
+        const roof = new THREE.Mesh(
+            new THREE.CylinderGeometry(15, 15, 10, 8, 1, false, 0, Math.PI), 
+            new THREE.MeshNormalMaterial({side: THREE.DoubleSide}) // TODO: Change this texture
+        )
         roof.position.y = 6
-        roof.rotation.x = 1.5708
+        roof.rotation.x = Math.PI / 2
+        roof.rotation.y = Math.PI / 2
+        roof.scale.x = .3
 
         const wallN = new THREE.Mesh(wallNSGeometry, wallMaterial)
         wallN.position.z = -5
@@ -189,7 +182,7 @@ export default class RenaissanceRoom {
         lightRoom1.shadow.camera.near = 0.2
         lightRoom1.shadow.camera.far = 100
 
-        const col1 = new Column(this, new THREE.Vector3(3, 5, 3))
+        const col1 = new Column(this, new THREE.Vector3(3, 0, 3), 15)
 
         const room = new THREE.Group()
 
