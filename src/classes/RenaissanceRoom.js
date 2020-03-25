@@ -6,7 +6,6 @@ import Statue from './Statue'
 import floorColorSource from './../textures/floor3/wood-flooring-026_d.png'
 import floorBumpSource from './../textures/floor3/wood-flooring-026_b.png'
 import floorRoughnessSource from './../textures/floor3/wood-flooring-026_r.png'
-// import wallColorSource from './../textures/floor2/Brick_wall_006_COLOR.jpg'
 import wallNormalSource from './../textures/floor2/Brick_wall_006_NRM.jpg'
 import Frame from './Frame'
 import Column from './Column'
@@ -127,7 +126,8 @@ export default class RenaissanceRoom {
         // wallColorTexture.wrapT = THREE.RepeatWrapping
         // wallColorTexture.repeat.x = 4
         // wallColorTexture.repeat.y = 4
-        const wallNormalTexture = this.context.textureLoader.load(wallNormalSource)
+        this.wallNormalTexture = this.context.textureLoader.load(wallNormalSource)
+        const wallNormalTexture = this.wallNormalTexture
         wallNormalTexture.wrapS = THREE.RepeatWrapping
         wallNormalTexture.wrapT = THREE.RepeatWrapping
         wallNormalTexture.repeat.x = 4
@@ -224,8 +224,8 @@ export default class RenaissanceRoom {
             this,
             '/models/david/12330_Statue_v1_L2.gltf',
             0,
-            .005,
-            0, 4, 4,
+            .007,
+            0, 4.2, 4,
             -Math.PI / 2, 0, -Math.PI,
             -2, 2, 1,
             -Math.PI / 10, Math.PI, 0,
@@ -234,28 +234,202 @@ export default class RenaissanceRoom {
             document.querySelector("#davidMichelangelo")
         )
 
+        //
+        //
+        // Side wall
+
+        const midWall = new THREE.Mesh(
+            new THREE.BoxGeometry(6, 5, .5),
+            new THREE.MeshStandardMaterial({
+                color: 0x5e1612,
+                normalMap: this.wallNormalTexture
+            })
+        )
+        midWall.position.set(13, 2.5, 0)
+        midWall.rotation.y = Math.PI / 2
+        this.group.add(midWall)
+
         const monaLisa = new Frame(
             this,
             "/paintings/mona-lisa.jpg",
             new THREE.Vector3(1, 1, 1),
-            new THREE.Vector3(-3.3, 1, -3.3),
-            new THREE.Vector3(),
-            new THREE.Vector3(0, 2, 0),
-            new THREE.Vector3(),
-            new THREE.Vector3(3, 3, 3)
+            new THREE.Vector3(11.51, 1.2, -.4),
+            new THREE.Vector3(0, -Math.PI / 2),
+            new THREE.Vector3(9, 2, 2),
+            new THREE.Vector3(0, -Math.PI / 2),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
         )
         monaLisa.direction = "left"
 
         const nocesCana = new Frame(
             this,
             "/paintings/noces-cana.jpg",
-            new THREE.Vector3(1, 1, 1),
-            new THREE.Vector3(-3.3, 1, 0),
+            new THREE.Vector3(1.4, 1.4, 1.4),
+            new THREE.Vector3(-16.3, 1.5, 0),
             new THREE.Vector3(0, Math.PI / 2),
-            new THREE.Vector3(0, 1.3, 0),
+            new THREE.Vector3(-12, 1.5, 2),
             new THREE.Vector3(0, Math.PI / 2),
-            new THREE.Vector3(3, 3, 3)
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
         )
+
+        //
+        //
+        // Wall in front of camera
+
+        const deposition = new Frame(
+            this,
+            "/paintings/deposition-du-christ.jpg",
+            new THREE.Vector3(1.3, 1.3, 1.3),
+            new THREE.Vector3(-12, .8, -4.4),
+            new THREE.Vector3(),
+            new THREE.Vector3(-14, 2, -2),
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+
+        const angeGardien = new Frame(
+            this,
+            "/paintings/lange-gardien.jpg",
+            new THREE.Vector3(1.3, 1.3, 1.3),
+            new THREE.Vector3(-8, .8, -4.4),
+            new THREE.Vector3(),
+            new THREE.Vector3(-10, 2, -2),
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+
+        const couronnementVierge = new Frame(
+            this,
+            "/paintings/couronnement-vierge.jpg",
+            new THREE.Vector3(1, 1, 1),
+            new THREE.Vector3(-3.3, 1, -4.75),
+            new THREE.Vector3(),
+            new THREE.Vector3(0, 2, -2),
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+        couronnementVierge.direction = "left"
+        
+        const viergeEnfantStAnne = new Frame(
+            this,
+            "/paintings/Virgin_and_Child_with_St_Anne.jpg",
+            new THREE.Vector3(1, 1, 1),
+            new THREE.Vector3(2, 1, -4.75),
+            new THREE.Vector3(),
+            new THREE.Vector3(0, 2, -2),
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+
+        const portraitVieillardJeune = new Frame(
+            this,
+            "/paintings/portrait_vieillard_jeune_garcon.jpg",
+            new THREE.Vector3(1, 1, 1),
+            new THREE.Vector3(4, 1, -4.75),
+            new THREE.Vector3(),
+            new THREE.Vector3(2, 2, -2),
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+
+        const pelerinsEmmaus = new Frame(
+            this,
+            "/paintings/les-pelerins-demmaues.jpg",
+            new THREE.Vector3(1, 1, 1),
+            new THREE.Vector3(8, 1, -4.75),
+            new THREE.Vector3(),
+            new THREE.Vector3(6, 2, -2),
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+
+        const hommeGant = new Frame(
+            this,
+            "/paintings/lhomme-au-gant.jpg",
+            new THREE.Vector3(1.3, 1.3, 1.3),
+            new THREE.Vector3(12, .8, -4.4),
+            new THREE.Vector3(),
+            new THREE.Vector3(10, 2, -2),
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+
+        //
+        //
+        // Wall behind camera
+
+        const deuxChiensChasses = new Frame(
+            this,
+            "/paintings/deux-chiens-chasse-lies-souche.jpg",
+            new THREE.Vector3(1, 1, 1),
+            new THREE.Vector3(8, 1, 4.75),
+            new THREE.Vector3(0, Math.PI, 0),
+            new THREE.Vector3(6, 2, 2),
+            new THREE.Vector3(0, -Math.PI, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+        deuxChiensChasses.direction = "left"
+
+        const apollonDaphne = new Frame(
+            this,
+            "/paintings/Apollo_and_Daphne.jpg",
+            new THREE.Vector3(1, 1, 1),
+            new THREE.Vector3(12, 1, 4.75),
+            new THREE.Vector3(0, Math.PI, 0),
+            new THREE.Vector3(10, 2, 2),
+            new THREE.Vector3(0, -Math.PI, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+
+        const charlesJosephCrowle = new Frame(
+            this,
+            "/paintings/charles_john_crowle.jpg",
+            new THREE.Vector3(1.3, 1.3, 1.3),
+            new THREE.Vector3(2, .8, 4.4),
+            new THREE.Vector3(0, Math.PI, 0),
+            new THREE.Vector3(0, 2, 2),
+            new THREE.Vector3(0, -Math.PI, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+        charlesJosephCrowle.direction = "left"
+
+        const heliodreTemple = new Frame(
+            this,
+            "/paintings/Heliodore-chasse-du-Temple.jpg",
+            new THREE.Vector3(1, 1, 1),
+            new THREE.Vector3(-2, 1, 4.75),
+            new THREE.Vector3(0, Math.PI, 0),
+            new THREE.Vector3(0, 2, 2),
+            new THREE.Vector3(0, -Math.PI, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+
+        const adorationBergers = new Frame(
+            this,
+            "/paintings/ladoration-des-bergers.jpg",
+            new THREE.Vector3(1.3, 1.3, 1.3),
+            new THREE.Vector3(-6, .8, 4.4),
+            new THREE.Vector3(0, Math.PI, 0),
+            new THREE.Vector3(-3.5, 2, 2),
+            new THREE.Vector3(0, -Math.PI, 0),
+            new THREE.Vector3(3, 3, 3),
+            document.querySelector("#davidMichelangelo")
+        )
+
+
     }
 
     hoverStatue() {

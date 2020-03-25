@@ -13,7 +13,7 @@ export default class Frame {
      * position/rotationView: Vector3 | how to place camera on click
      * scaleTo: n resize when focusing
      */
-    constructor(addToRoom, path, scale, position, rotation, positionView, rotationView, scaleTo) {
+    constructor(addToRoom, path, scale, position, rotation, positionView, rotationView, scaleTo, $contentInfo) {
         this.context = new Context()
         this.scene = addToRoom.scene
 
@@ -25,6 +25,7 @@ export default class Frame {
         this.scaleTo = scaleTo
         this.hover = false
         this.active = false
+        this.$contentInfo = $contentInfo
 
         this.context.gltfLoader.load('/models/frame/frame.glb', (_glb) => {
             this.frameMesh = _glb.scene.children[0].children[0]
@@ -147,6 +148,7 @@ export default class Frame {
                 ease: 'Power3.easeInOut'
             })
             .delay(1)
+        this.$contentInfo.classList.add('show')
     }
 
     outContainerInformation() {
@@ -172,5 +174,6 @@ export default class Frame {
             transform: end,
             ease: 'Power3.easeInOut'
         })
+        this.$contentInfo.classList.remove('show')
     }
 }
