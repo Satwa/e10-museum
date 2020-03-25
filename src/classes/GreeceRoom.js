@@ -7,6 +7,7 @@ import floorColorSource from './../textures/floor/WoodFlooringMerbauBrickBondNat
 import floorNormalSource from './../textures/floor/WoodFlooringMerbauBrickBondNatural001_NRM_3K.png'
 import wallColorSource from './../textures/floor2/Brick_wall_006_COLOR.jpg'
 import wallNormalSource from './../textures/floor2/Brick_wall_006_NRM.jpg'
+import Column from "./Column";
 
 export default class GreeceRoom {
 
@@ -67,7 +68,15 @@ export default class GreeceRoom {
                     this.groupLightOn.remove(this.groupLightOn.children[0])
                     this.statueOn.model.scale.set(this.statueOn.scale,this.statueOn.scale,this.statueOn.scale)
                     this.statueOn.scene.position.y -= 1
-                    this.statueOn.model.rotation.y = this.statueOn.rotYStart
+                    if(this.statueOn.axeToRotate == 'y')
+                    {
+                        this.statueOn.model.rotation.y = this.statueOn.rotYStart
+                    }
+                    else
+                    {
+                        this.statueOn.model.rotation.z = this.statueOn.rotYStart
+
+                    }
                     this.statueOn = null
                 }
             })
@@ -182,6 +191,11 @@ export default class GreeceRoom {
         lightRoom1.shadow.camera.near = 0.2;
         lightRoom1.shadow.camera.far = 100
 
+        new Column(this, new THREE.Vector3(2.5, 4, 3.8))
+        new Column(this, new THREE.Vector3(-2.5, 4, 3.8))
+        new Column(this, new THREE.Vector3(2.5, 4, -3.8))
+        new Column(this, new THREE.Vector3(-2.5, 4, -3.8))
+
 
         const room = new THREE.Group()
 
@@ -223,7 +237,6 @@ export default class GreeceRoom {
             const  venusMilo = new Statue(this.context)
             const nikeSamo =  new Statue(this.context)
             await hercule.update(this,'/models/hercule/scene.gltf',3,0.12,-10.25,0.5,8.9,-0.39, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,0.10,"y","left",document.querySelector('#hercule'))
-
             await venusMilo.update(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'))
             await nikeSamo.update(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'))
             resolve('load')

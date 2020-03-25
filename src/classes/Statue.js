@@ -31,7 +31,14 @@ export default class Class {
         this.model.rotation.x = rotX
         this.model.rotation.y = rotY
         this.model.rotation.z = rotZ
-        this.rotYStart = rotY
+        if(axeToRotate == 'y')
+        {
+            this.rotYStart = rotY
+        }
+        else
+        {
+            this.rotYStart = rotZ
+        }
         this.posXView = this.model.position.x + posXView
         this.posYView = posYView
         this.posZView = posZView
