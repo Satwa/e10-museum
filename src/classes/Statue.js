@@ -76,6 +76,7 @@ export default class Class {
                         })
                     addTo.group.add(statue)
                     this.scene.traverse(obj => obj.frustumCulled = false);
+                    this.context.updateProgressePourcent()
                     resolve('succes')
                 },
                 (_gltf) =>

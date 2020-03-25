@@ -4,6 +4,7 @@ import LoadingScreen from './classes/LoadingScreen'
 import GreeceRoom from './classes/GreeceRoom'
 import RenaissanceRoom from './classes/RenaissanceRoom'
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls'
+import Context from "./classes/Context";
 
 
 
@@ -18,7 +19,6 @@ cursor.y = 0
 window.addEventListener('mousemove', (_event) => {
     cursor.x = _event.clientX / sizes.width - 0.5
     cursor.y = _event.clientY / sizes.height - 0.5
-
 })
 
 
@@ -26,14 +26,6 @@ window.addEventListener('mousemove', (_event) => {
  * Scene
  */
 const scene = new THREE.Scene()
-
-
-
-
-// scene.add(new THREE.Mesh(
-//     new THREE.TorusGeometry(1, .7, 12, 32),
-//     new THREE.MeshNormalMaterial()
-// ))
 
 /**
  * Camera
@@ -50,10 +42,14 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(window.devicePixelRatio)
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFShadowMap;
-
+renderer.gammaOutput = true
+renderer.gammaFactor = 2.2
 document.body.appendChild(renderer.domElement)
 
-
+/**
+ * Controls
+ * @type {FirstPersonControls}
+ */
 
 const controls = new FirstPersonControls(camera,renderer.domElement)
 controls.movementSpeed = 10;
@@ -68,7 +64,6 @@ controls.lookVertical = false
 window.addEventListener('resize', () => {
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
-
     camera.aspect = sizes.width / sizes.height
     camera.updateProjectionMatrix()
     renderer.setSize(sizes.width, sizes.height)
@@ -80,13 +75,7 @@ window.addEventListener('resize', () => {
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.2)
 scene.add(ambientLight)
-/*
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
-directionalLight.position.x = 5
-directionalLight.position.y = 5
-directionalLight.position.z = 5
-scene.add(directionalLight)
-*/
+
 
 /**
  * Object
@@ -98,9 +87,10 @@ loadingScreen.group.rotation.y = Math.PI / 4
 scene.add(loadingScreen.group)
 */
 
+const context = new Context()
 
 // Greece Room
-const greeceRoom = new GreeceRoom(camera,controls,scene)
+const greeceRoom = new GreeceRoom(camera,controls,scene,context)
 greeceRoom.group.position.x = 0
 scene.add(greeceRoom.group)
 

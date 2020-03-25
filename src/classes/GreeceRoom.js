@@ -11,75 +11,19 @@ import Column from "./Column";
 
 export default class GreeceRoom {
 
-    constructor(camera,controls,scene) {
+    constructor(camera,controls,scene,context) {
         this.group = new THREE.Group()
         this.camera = camera
         this.controls = controls
         this.scene = scene
-        this.context =  new Context()
+        this.context =  context
         this.statue = []
         this.statueOn = null;
         this.groupLightOn = new THREE.Group()
-
+        this.context.nbModelImport += 3
         this.init()
-
-        window.addEventListener(
-            'click',
-            ()=>
-            {
-                this.statue.forEach((result)=>
-                {
-                    if(result.hover && !result.active && this.statueOn == null)
-                    {
-                        result.active = true
-                        this.statueOn = result
-                        result.animateStatue(this.camera)
-
-
-                        const statueLight = new THREE.SpotLight(0xffffff, 0.5)
-                        statueLight.penumbra = 1
-                        statueLight.castShadow = true;
-
-                        this.groupLightOn.add(statueLight)
-                        this.group.add(this.groupLightOn)
-                        statueLight.target = result.model
-                        statueLight.shadow.mapSize.width = 4300;
-                        statueLight.shadow.mapSize.height = 4300;
-                        statueLight.shadow.camera.near = 0.1;
-                        statueLight.shadow.camera.far = 10
-                        result.model.scale.set(result.scaleTo,result.scaleTo,result.scaleTo)
-                        this.controls.enabled = false
-                        this.showModel(result)
-
-                    }
-                })
-            }
-        )
-        document.querySelector('.buttonQuitMenu').addEventListener(
-            'click',
-            ()=>
-            {
-                if(this.statueOn != null)
-                {
-                    this.statueOn.active = false
-                    this.statueOn.animation.kill()
-                    this.controls.enabled = true
-                    this.statueOn.outContainerInformation()
-                    this.groupLightOn.remove(this.groupLightOn.children[0])
-                    this.statueOn.model.scale.set(this.statueOn.scale,this.statueOn.scale,this.statueOn.scale)
-                    this.statueOn.scene.position.y -= 1
-                    if(this.statueOn.axeToRotate == 'y')
-                    {
-                        this.statueOn.model.rotation.y = this.statueOn.rotYStart
-                    }
-                    else
-                    {
-                        this.statueOn.model.rotation.z = this.statueOn.rotYStart
-
-                    }
-                    this.statueOn = null
-                }
-            })
+        window.addEventListener('click',()=>{this.showModel()})
+        document.querySelector('.buttonQuitMenu').addEventListener('click', ()=> {this.quitShowingStatue()})
 
     }
 
@@ -267,9 +211,43 @@ export default class GreeceRoom {
 
     }
 
-    showModel(statue)
+    showModel()
     {
-        window.requestAnimationFrame(() => {this.showModel(statue)})
+
+        this.statue.forEach((result)=>
+        {
+            if(result.hover && !result.active && this.statueOn == null)
+            {
+                result.active = true
+                this.statueOn = result
+                result.animateStatue(this.camera)
+
+
+                const statueLight = new THREE.SpotLight(0xffffff, 0.5)
+                statueLight.penumbra = 1
+                statueLight.castShadow = true;
+
+                this.groupLightOn.add(statueLight)
+                this.group.add(this.groupLightOn)
+                statueLight.target = result.model
+                statueLight.shadow.mapSize.width = 4300;
+                statueLight.shadow.mapSize.height = 4300;
+                statueLight.shadow.camera.near = 0.1;
+                statueLight.shadow.camera.far = 10
+                result.model.scale.set(result.scaleTo,result.scaleTo,result.scaleTo)
+                this.controls.enabled = false
+                this.turnStatue(result)
+
+            }
+        })
+
+
+
+    }
+
+    turnStatue(statue)
+    {
+        window.requestAnimationFrame(() => {this.turnStatue(statue)})
         if(this.statueOn == statue)
         {
             if(statue.axeToRotate == "y")
@@ -282,7 +260,30 @@ export default class GreeceRoom {
                 statue.model.rotation.z += 0.007
             }
         }
+    }
 
+    quitShowingStatue()
+    {
+        if(this.statueOn != null)
+        {
+            this.statueOn.active = false
+            this.statueOn.animation.kill()
+            this.controls.enabled = true
+            this.statueOn.outContainerInformation()
+            this.groupLightOn.remove(this.groupLightOn.children[0])
+            this.statueOn.model.scale.set(this.statueOn.scale,this.statueOn.scale,this.statueOn.scale)
+            this.statueOn.scene.position.y -= 1
+            if(this.statueOn.axeToRotate == 'y')
+            {
+                this.statueOn.model.rotation.y = this.statueOn.rotYStart
+            }
+            else
+            {
+                this.statueOn.model.rotation.z = this.statueOn.rotYStart
+
+            }
+            this.statueOn = null
+        }
     }
 
 }
