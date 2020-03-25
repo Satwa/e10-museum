@@ -3,10 +3,13 @@ import {TweenLite} from 'gsap/all'
 import {TimelineMax} from 'gsap/all'
 import Context from './Context'
 import Statue from './Statue'
-import floorColorSource from './../textures/marble/Marble062_COL_3K.jpg'
-import wallColorSource from './../textures/floor2/Brick_wall_006_COLOR.jpg'
+import floorColorSource from './../textures/floor3/wood-flooring-026_d.png'
+import floorBumpSource from './../textures/floor3/wood-flooring-026_b.png'
+import floorRoughnessSource from './../textures/floor3/wood-flooring-026_r.png'
+// import wallColorSource from './../textures/floor2/Brick_wall_006_COLOR.jpg'
+import wallNormalSource from './../textures/floor2/Brick_wall_006_NRM.jpg'
 import Frame from './Frame'
-import {AmbientLight} from 'three'
+import Column from './Column'
 
 export default class RenaissanceRoom {
     constructor(camera, controls, scene) {
@@ -29,7 +32,7 @@ export default class RenaissanceRoom {
         this.moveCamera()
 
         // DEBUG
-        this.group.add(new AmbientLight(0xffffff, .5))
+        this.group.add(new THREE.AmbientLight(0xffffff, .2))
 
         window.addEventListener('click', () => {
             this.statue.forEach((result) => {
@@ -103,23 +106,51 @@ export default class RenaissanceRoom {
         floorColorTexture.wrapT = THREE.RepeatWrapping
         floorColorTexture.repeat.x = 4
         floorColorTexture.repeat.y = 4
+        const floorBumpTexture = this.context.textureLoader.load(floorBumpSource)
+        floorBumpTexture.wrapS = THREE.RepeatWrapping
+        floorBumpTexture.wrapT = THREE.RepeatWrapping
+        floorBumpTexture.repeat.x = 4
+        floorBumpTexture.repeat.y = 4
+        const floorRoughnessTexture = this.context.textureLoader.load(floorRoughnessSource)
+        floorRoughnessTexture.wrapS = THREE.RepeatWrapping
+        floorRoughnessTexture.wrapT = THREE.RepeatWrapping
+        floorRoughnessTexture.repeat.x = 4
+        floorRoughnessTexture.repeat.y = 4
+        // const floorNormalTexture = this.context.textureLoader.load(floorNormalSource)
+        // floorNormalTexture.wrapS = THREE.RepeatWrapping
+        // floorNormalTexture.wrapT = THREE.RepeatWrapping
+        // floorNormalTexture.repeat.x = 4
+        // floorNormalTexture.repeat.y = 4
 
-        const wallColorTexture = this.context.textureLoader.load(wallColorSource)
-        wallColorTexture.wrapS = THREE.RepeatWrapping
-        wallColorTexture.wrapT = THREE.RepeatWrapping
-        wallColorTexture.repeat.x = 4
-        wallColorTexture.repeat.y = 4
+        // const wallColorTexture = this.context.textureLoader.load(wallColorSource)
+        // wallColorTexture.wrapS = THREE.RepeatWrapping
+        // wallColorTexture.wrapT = THREE.RepeatWrapping
+        // wallColorTexture.repeat.x = 4
+        // wallColorTexture.repeat.y = 4
+        const wallNormalTexture = this.context.textureLoader.load(wallNormalSource)
+        wallNormalTexture.wrapS = THREE.RepeatWrapping
+        wallNormalTexture.wrapT = THREE.RepeatWrapping
+        wallNormalTexture.repeat.x = 4
+        wallNormalTexture.repeat.y = 4
 
+
+        const floorMaterial = new THREE.MeshStandardMaterial({
+            map: floorColorTexture,
+            bumpMap: floorBumpTexture,
+            roughnessMap: floorRoughnessTexture
+            // normalMap: floorNormalTexture
+        })
 
         const wallMaterial = new THREE.MeshStandardMaterial({
-            map: wallColorTexture
+            color: 0x5e1612,
+            // map: wallColorTexture,
+            normalMap: wallNormalTexture
         })
-        const floorMaterial = new THREE.MeshStandardMaterial({
-            map: floorColorTexture
-        })
-        const wallNSGeometry = new THREE.PlaneGeometry(10, 6, 20, 5)
+        
+        // new THREE.PlaneGeometry()
+        const wallNSGeometry = new THREE.PlaneGeometry(30, 6, 20, 5)
         const wallEOGeometry = new THREE.PlaneGeometry(10, 6, 20, 5)
-        const floorGeometry = new THREE.PlaneGeometry(10, 10, 5, 5)
+        const floorGeometry = new THREE.PlaneGeometry(30, 10, 5, 5)
 
         const floor = new THREE.Mesh(floorGeometry, floorMaterial)
         floor.rotation.x = -1.5708
@@ -139,16 +170,30 @@ export default class RenaissanceRoom {
 
         const wallE = new THREE.Mesh(wallEOGeometry, wallMaterial)
         wallE.position.y = + 3
-        wallE.position.x = - 5
+        wallE.position.x = - 15
         wallE.rotation.y = 1.5708
 
         const wallO = new THREE.Mesh(wallEOGeometry, wallMaterial)
         wallO.position.y = + 3
-        wallO.position.x = 5
+        wallO.position.x = 15
         wallO.rotation.y = -1.5708
+
+        const lightRoom1 = new THREE.SpotLight(0xffcc00, 0.8)
+        lightRoom1.position.y = 4.9
+        lightRoom1.position.x = 0
+        lightRoom1.position.z = 0
+        lightRoom1.penumbra = 1
+        lightRoom1.castShadow = true
+        lightRoom1.shadow.mapSize.width = 2512
+        lightRoom1.shadow.mapSize.height = 2512
+        lightRoom1.shadow.camera.near = 0.2
+        lightRoom1.shadow.camera.far = 100
+
+        const col1 = new Column(this, new THREE.Vector3(3, 5, 3))
 
         const room = new THREE.Group()
 
+        room.add(lightRoom1)
         room.add(floor)
         room.add(roof)
         room.add(wallN)
