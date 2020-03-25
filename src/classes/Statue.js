@@ -6,9 +6,9 @@ import * as THREE from "three";
 
 export default class Class {
 
-    constructor(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX,rotY,rotZ,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction,$contentInfo,scene)
+    constructor(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX,rotY,rotZ,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction,$contentInfo)
     {
-        this.scene = scene
+        this.scene = addTo.scene
         this.context = new Context()
         this.update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX,rotY,rotZ,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction,$contentInfo)
     }

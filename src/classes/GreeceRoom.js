@@ -10,11 +10,10 @@ import wallNormalSource from './../textures/floor2/Brick_wall_006_NRM.jpg'
 
 export default class GreeceRoom {
 
-    constructor(camera,controls,renderer,scene) {
+    constructor(camera,controls,scene) {
         this.group = new THREE.Group()
         this.camera = camera
         this.controls = controls
-        this.renderer = renderer
         this.scene = scene
         this.context =  new Context()
         this.statue = []
@@ -203,9 +202,9 @@ export default class GreeceRoom {
     async createAllStatue()
     {
 
-        const  venusMilo = new Statue(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'),this.scene)
-        const nikeSamo = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'),this.scene)
-        const hercule = new Statue(this,'/models/hercule/scene.gltf',3,0.12,-10.25,0.5,8.9,-0.39, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,0.10,"y","left",document.querySelector('#hercule'),this.scene)
+        const  venusMilo = new Statue(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'))
+        const nikeSamo = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'))
+        const hercule = new Statue(this,'/models/hercule/scene.gltf',3,0.12,-10.25,0.5,8.9,-0.39, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,0.10,"y","left",document.querySelector('#hercule'))
     }
 
     hoverStatue()

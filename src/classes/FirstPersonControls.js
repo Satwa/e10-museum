@@ -154,6 +154,7 @@ var FirstPersonControls = function(object, domElement) {
 
             case 32:
             case 82: /*R*/ this.moveUp = true; break
+            case 16: /*Shift*/
             case 70: /*F*/ this.moveDown = true; break
 
         }
@@ -178,8 +179,8 @@ var FirstPersonControls = function(object, domElement) {
 
             case 32:
             case 82: /*R*/ this.moveUp = false; break
+            case 16: /*Shift*/
             case 70: /*F*/ this.moveDown = false; break
-
         }
 
     }

@@ -15,6 +15,7 @@ export default class Frame {
      */
     constructor(addToRoom, path, scale, position, rotation, positionView, rotationView, scaleTo) {
         this.context = new Context()
+        this.scene = addToRoom.scene
 
         // positionView.x += this.model.position.x
         this.group = new THREE.Group()
@@ -92,6 +93,7 @@ export default class Frame {
             this.group.add(plane)
 
             addToRoom.group.add(this.group)
+            this.scene.traverse(obj => obj.frustumCulled = false);
         })
     }
 

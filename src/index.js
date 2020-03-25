@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import LoadingScreen from './classes/LoadingScreen'
 import GreeceRoom from './classes/GreeceRoom'
 import RenaissanceRoom from './classes/RenaissanceRoom'
-import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js'
+import { FirstPersonControls } from './classes/FirstPersonControls'
 
 
 
@@ -93,7 +93,7 @@ scene.add(directionalLight)
 */
 
 /**
- * Objet
+ * Object
  */
 
 /*const loadingScreen = new LoadingScreen()
@@ -104,13 +104,13 @@ scene.add(loadingScreen.group)
 
 
 // Greece Room
- const greeceRoom = new GreeceRoom(camera,controls,renderer,scene)
- greeceRoom.group.position.x = 0
- scene.add(greeceRoom.group)
-/*
-const greeceRoom = new RenaissanceRoom(camera,controls)
-greeceRoom.group.position.x = 0
-scene.add(greeceRoom.group)*/
+// const greeceRoom = new GreeceRoom(camera,controls,scene)
+// greeceRoom.group.position.x = 0
+// scene.add(greeceRoom.group)
+
+const renaissanceRoom = new RenaissanceRoom(camera, controls, scene)
+renaissanceRoom.group.position.x = 0
+scene.add(renaissanceRoom.group)
 
 /**
  * Loop
@@ -118,7 +118,8 @@ scene.add(greeceRoom.group)*/
 const clock = new THREE.Clock();
 const loop = () => {
     window.requestAnimationFrame(loop)
-    greeceRoom.hoverStatue()
+    // greeceRoom.hoverStatue()
+    renaissanceRoom.hoverStatue()
     // camera.lookAt(scene.position)
     // Render
     controls.update( clock.getDelta() );

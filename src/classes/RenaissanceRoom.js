@@ -9,10 +9,12 @@ import Frame from './Frame'
 import {AmbientLight} from 'three'
 
 export default class RenaissanceRoom {
-    constructor(camera, controls) {
+    constructor(camera, controls, scene) {
         this.group = new THREE.Group()
         this.camera = camera
         this.controls = controls
+        // this.renderer = renderer
+        this.scene = scene
         this.context = new Context()
 
         this.statue = []
@@ -27,8 +29,8 @@ export default class RenaissanceRoom {
         this.moveCamera()
 
         // DEBUG
-        // this.group.add(new AmbientLight(0xffffff, 1))
-        
+        this.group.add(new AmbientLight(0xffffff, .5))
+
         window.addEventListener('click', () => {
             this.statue.forEach((result) => {
                 if(result.hover && !result.active) {
@@ -81,7 +83,7 @@ export default class RenaissanceRoom {
                 this.statueOn.scene.position.y -= 1
                 this.statueOn.model.rotation.y = this.statueOn.rotYStart
                 this.statueOn = null
-            }else if(this.frameOn != null){
+            } else if(this.frameOn != null) {
                 this.frameOn.active = false
                 this.controls.enabled = true
                 this.frameOn.outContainerInformation()
@@ -172,27 +174,40 @@ export default class RenaissanceRoom {
 
 
     async createAllStatue() {
-        // constructor(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX, rotY, rotZ, posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate)
-        const david = new Statue(this, '/models/david/12330_Statue_v1_L2.gltf', 0, .005, 0, 4, 4, -Math.PI / 2, 0, -Math.PI, -2, 2, 1, 1, -1.5708 * 2, 0, -1.5708 * 2, .005, "x")
+        const david = new Statue(
+            this,
+            '/models/david/12330_Statue_v1_L2.gltf',
+            0,
+            .005,
+            0, 4, 4,
+            -Math.PI / 2, 0, -Math.PI,
+            -2, 2, 1,
+            -Math.PI / 10, Math.PI, 0,
+            .008,
+            "x", "left",
+            "TEXT DAVID"
+        )
 
         const monaLisa = new Frame(
-            this, 
-            "/paintings/mona-lisa.jpg", 
-            new THREE.Vector3(2, 2, 2),
+            this,
+            "/paintings/mona-lisa.jpg",
+            new THREE.Vector3(1, 1, 1),
             new THREE.Vector3(-3.3, 1, -3.3),
             new THREE.Vector3(),
-            new THREE.Vector3(),
+            new THREE.Vector3(0, 2, 0),
             new THREE.Vector3(),
             new THREE.Vector3(3, 3, 3)
         )
+        monaLisa.direction = "left"
+
         const nocesCana = new Frame(
-            this, 
-            "/paintings/noces-cana.jpg", 
-            new THREE.Vector3(2, 2, 2),
+            this,
+            "/paintings/noces-cana.jpg",
+            new THREE.Vector3(1, 1, 1),
             new THREE.Vector3(-3.3, 1, 0),
             new THREE.Vector3(0, Math.PI / 2),
-            new THREE.Vector3(),
-            new THREE.Vector3(),
+            new THREE.Vector3(0, 1.3, 0),
+            new THREE.Vector3(0, Math.PI / 2),
             new THREE.Vector3(3, 3, 3)
         )
     }
@@ -234,4 +249,3 @@ export default class RenaissanceRoom {
         }
     }
 }
-
