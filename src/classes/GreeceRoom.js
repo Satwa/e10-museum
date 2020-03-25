@@ -135,10 +135,10 @@ export default class GreeceRoom {
         lightRoom1.shadow.camera.near = 0.2;
         lightRoom1.shadow.camera.far = 100
 
-        new Column(this, new THREE.Vector3(2.5, 4, 3.8))
-        new Column(this, new THREE.Vector3(-2.5, 4, 3.8))
-        new Column(this, new THREE.Vector3(2.5, 4, -3.8))
-        new Column(this, new THREE.Vector3(-2.5, 4, -3.8))
+        new Column(this, new THREE.Vector3(2.5, 0, 3.8))
+        new Column(this, new THREE.Vector3(-2.5, 0, 3.8))
+        new Column(this, new THREE.Vector3(2.5, 0, -3.8))
+        new Column(this, new THREE.Vector3(-2.5, 0, -3.8))
 
 
         const room = new THREE.Group()
