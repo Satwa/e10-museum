@@ -6,14 +6,15 @@ import * as THREE from "three";
 
 export default class Class {
 
-    constructor(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
+    constructor(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX,rotY,rotZ,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction,$contentInfo,scene)
     {
+        this.scene = scene
         this.context = new Context()
-        this.update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
+        this.update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX,rotY,rotZ,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction,$contentInfo)
     }
 
 
-    async update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotY,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction)
+    async update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX,rotY,rotZ,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction,$contentInfo)
     {
         const statue =  await this.addStatue(addTo,path)
         this.scene = addTo.statue[addTo.statue.length-1].scene
@@ -27,7 +28,9 @@ export default class Class {
         this.model.position.y = posY
         this.model.position.x = posX
         this.model.position.z = posZ
+        this.model.rotation.x = rotX
         this.model.rotation.y = rotY
+        this.model.rotation.z = rotZ
         this.rotYStart = rotY
         this.posXView = this.model.position.x + posXView
         this.posYView = posYView
@@ -40,7 +43,11 @@ export default class Class {
         this.hover = false
         this.active = false
         this.axeToRotate = axeToRotate
-
+        this.$contentInfo = $contentInfo
+        this.model.children.forEach((resultat) =>
+        {
+            resultat.castShadow = true
+        })
         addTo.statue[addTo.statue.length-1] = this
     }
 
@@ -59,7 +66,7 @@ export default class Class {
                         })
 
                     addTo.group.add(statue)
-
+                    this.scene.traverse(obj => obj.frustumCulled = false);
                     resolve('succes')
                 }
             )
@@ -109,23 +116,19 @@ export default class Class {
             {
                 y: 1.1,
                 ease: "power2.inOut"
-            })
-        this.animation.to(
+            }).to(
             this.scene.position,
             1,
             {
                 y: 1,
                 ease: "power2.inOut"
-            })
-        this.animation.to(
+            }).to(
             this.scene.position,
             1,
             {
                 y: 1.1,
                 ease: "power2.inOut"
             })
-
-
 
 
         this.animation.repeat(-1)
@@ -137,23 +140,26 @@ export default class Class {
     {
 
         let start,end
+        const containerInformation = document.querySelector('#containerInformation')
 
         if(this.direction == "left")
         {
             start = "translateX(100vw)"
             end = "translateX(50vw)"
+            containerInformation.classList.add('right')
         }
         else
         {
             start = "translateX(-50vw)"
             end = "translateX(0vw)"
+            containerInformation.classList.add('left')
         }
 
         TweenLite.from(
-            "#containerInformation",
+            containerInformation,
             2,
             {
-                display: "block",
+                display: "flex",
                 opacity:0,
                 transform:start,
                 ease: 'Power3.easeInOut'
@@ -161,16 +167,16 @@ export default class Class {
         ).delay(1)
 
         TweenLite.to(
-            "#containerInformation",
+            containerInformation,
             2,
             {
-                display: "block",
+                display: "flex",
                 opacity : 1,
                 transform: end,
                 ease: 'Power3.easeInOut'
             }
         ).delay(1)
-
+        this.$contentInfo.classList.add('show')
     }
 
     outContainerInformation()
@@ -193,7 +199,7 @@ export default class Class {
             "#containerInformation",
             2,
             {
-                display: "block",
+                display: "flex",
                 opacity:1,
                 transform:start,
                 ease: 'Power3.easeInOut'
@@ -210,6 +216,6 @@ export default class Class {
                 ease: 'Power3.easeInOut'
             }
         )
-
+        this.$contentInfo.classList.remove('show')
     }
 }

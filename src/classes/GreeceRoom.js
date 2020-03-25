@@ -10,10 +10,12 @@ import wallNormalSource from './../textures/floor2/Brick_wall_006_NRM.jpg'
 
 export default class GreeceRoom {
 
-    constructor(camera,controls) {
+    constructor(camera,controls,renderer,scene) {
         this.group = new THREE.Group()
         this.camera = camera
         this.controls = controls
+        this.renderer = renderer
+        this.scene = scene
         this.context =  new Context()
         this.statue = []
         this.statueOn = null;
@@ -35,13 +37,17 @@ export default class GreeceRoom {
                         result.animateStatue(this.camera)
 
 
-                        const statueLight = new THREE.SpotLight(0xffffff, 0.6)
+                        const statueLight = new THREE.SpotLight(0xffffff, 0.5)
                         statueLight.penumbra = 1
+                        statueLight.castShadow = true;
 
                         this.groupLightOn.add(statueLight)
                         this.group.add(this.groupLightOn)
                         statueLight.target = result.model
-
+                        statueLight.shadow.mapSize.width = 4300;
+                        statueLight.shadow.mapSize.height = 4300;
+                        statueLight.shadow.camera.near = 0.1;
+                        statueLight.shadow.camera.far = 10
                         result.model.scale.set(result.scaleTo,result.scaleTo,result.scaleTo)
                         this.controls.enabled = false
                         this.showModel(result)
@@ -61,7 +67,6 @@ export default class GreeceRoom {
                     this.controls.enabled = true
                     this.statueOn.outContainerInformation()
                     this.groupLightOn.remove(this.groupLightOn.children[0])
-                    console.log(this.statueOn.scale)
                     this.statueOn.model.scale.set(this.statueOn.scale,this.statueOn.scale,this.statueOn.scale)
                     this.statueOn.scene.position.y -= 1
                     this.statueOn.model.rotation.y = this.statueOn.rotYStart
@@ -113,6 +118,9 @@ export default class GreeceRoom {
 
         const floor = new THREE.Mesh(floorGeometry,floorMaterial)
         floor.rotation.x = -1.5708
+        floor.receiveShadow = true
+        floor.castShadow = false
+
 
         const roof = new THREE.Mesh(floorGeometry,floorMaterial)
         roof.position.y = 6
@@ -121,24 +129,48 @@ export default class GreeceRoom {
         const wallN = new THREE.Mesh(wallNSGeometry, wallMaterial)
         wallN.position.z  = -5
         wallN.position.y = 3
+        wallN.receiveShadow = true
+        wallN.castShadow = false
+
 
         const wallS = new THREE.Mesh(wallNSGeometry, wallMaterial)
         wallS.position.z  = 5
         wallS.position.y =  3
         wallS.rotation.x = -1.5708 * 2
+        wallS.receiveShadow = true
+        wallS.castShadow = false
+
 
         const wallE =  new THREE.Mesh(wallEOGeometry, wallMaterial)
         wallE.position.y = + 3
         wallE.position.x = - 5
         wallE.rotation.y = 1.5708
+        wallE.receiveShadow = true
+        wallE.castShadow = false
+
 
         const wallO =  new THREE.Mesh(wallEOGeometry,wallMaterial)
         wallO.position.y = + 3
         wallO.position.x =  5
         wallO.rotation.y = -1.5708
+        wallO.castShadow = false
+        wallO.receiveShadow = true
+
+        const lightRoom1 = new THREE.SpotLight(0xffcc00,0.5)
+        lightRoom1.position.y = 4.9
+        lightRoom1.position.x = 0
+        lightRoom1.position.z = 0
+        lightRoom1.penumbra = 1
+        lightRoom1.castShadow = true;
+        lightRoom1.shadow.mapSize.width = 2512;
+        lightRoom1.shadow.mapSize.height = 2512;
+        lightRoom1.shadow.camera.near = 0.2;
+        lightRoom1.shadow.camera.far = 100
+
 
         const room = new THREE.Group()
 
+        room.add(lightRoom1)
         room.add(floor)
         room.add(roof)
         room.add(wallN)
@@ -171,10 +203,9 @@ export default class GreeceRoom {
     async createAllStatue()
     {
 
-        const  venusMilo = new Statue(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right")
-        const nikeSamo = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,1.5708 * 2,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left")
-        const nikeSamo2 = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,0,4,1.5708 * 2,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left")
-
+        const  venusMilo = new Statue(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'),this.scene)
+        const nikeSamo = new Statue(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'),this.scene)
+        const hercule = new Statue(this,'/models/hercule/scene.gltf',3,0.12,-10.25,0.5,8.9,-0.39, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,0.10,"y","left",document.querySelector('#hercule'),this.scene)
     }
 
     hoverStatue()

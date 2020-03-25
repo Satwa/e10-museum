@@ -2,6 +2,7 @@ import './style/app.styl'
 import * as THREE from 'three'
 import LoadingScreen from './classes/LoadingScreen'
 import GreeceRoom from './classes/GreeceRoom'
+import RenaissanceRoom from './classes/RenaissanceRoom'
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js'
 
 
@@ -53,6 +54,8 @@ scene.add(camera)
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(window.devicePixelRatio)
+renderer.shadowMap.enabled = false;
+renderer.shadowMap.type = THREE.PCFShadowMap;
 
 document.body.appendChild(renderer.domElement)
 
@@ -101,9 +104,13 @@ scene.add(loadingScreen.group)
 
 
 // Greece Room
-const greeceRoom = new GreeceRoom(camera,controls)
+ const greeceRoom = new GreeceRoom(camera,controls,renderer,scene)
+ greeceRoom.group.position.x = 0
+ scene.add(greeceRoom.group)
+/*
+const greeceRoom = new RenaissanceRoom(camera,controls)
 greeceRoom.group.position.x = 0
-scene.add(greeceRoom.group)
+scene.add(greeceRoom.group)*/
 
 /**
  * Loop
@@ -117,5 +124,4 @@ const loop = () => {
     controls.update( clock.getDelta() );
     renderer.render(scene, camera)
 }
-
 loop()
