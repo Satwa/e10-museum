@@ -19,8 +19,7 @@ export default class GreeceRoom {
         this.statue = []
         this.statueOn = null;
         this.groupLightOn = new THREE.Group()
-        this.createRoom()
-        this.moveCamera()
+
         this.init()
 
         window.addEventListener(
@@ -77,15 +76,17 @@ export default class GreeceRoom {
 
     async init()
     {
+        this.createRoom()
         await this.createAllStatue()
         return new Promise((resolve) =>
         {
             if(this.context.currentLoad == this.context.totalLoad)
             {
                 console.log("C'est chargé")
-                resolve('tinregdf,ieq')
+                resolve('load')
             }
         })
+        this.moveCamera()
 
     }
 

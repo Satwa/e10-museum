@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import LoadingScreen from './classes/LoadingScreen'
 import GreeceRoom from './classes/GreeceRoom'
 import RenaissanceRoom from './classes/RenaissanceRoom'
-import { FirstPersonControls } from './classes/FirstPersonControls'
+import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls'
 
 
 
@@ -42,12 +42,6 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 
 camera.position.z = 8
 scene.add(camera)
 
-
-
-
-
-
-
 /**
  * Renderer
  */
@@ -59,10 +53,12 @@ renderer.shadowMap.type = THREE.PCFShadowMap;
 
 document.body.appendChild(renderer.domElement)
 
+
+
 const controls = new FirstPersonControls(camera,renderer.domElement)
 controls.movementSpeed = 10;
 controls.lookSpeed = 0.1;
-
+controls.lookVertical = false
 
 
 
