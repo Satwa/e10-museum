@@ -174,7 +174,7 @@ export default class RenaissanceRoom {
 
 
     async createAllStatue() {
-        const david = new Statue()
+        const david = new Statue(this.context)
         await david.update(
             this,
             '/models/david/12330_Statue_v1_L2.gltf',

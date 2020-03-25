@@ -130,8 +130,9 @@ const clock = new THREE.Clock();
 const loop = () => {
     window.requestAnimationFrame(loop)
 
-    greeceRoom.hoverStatue()
-    renaissanceRoom.hoverStatue()
+    greeceRoom.group.visible ? greeceRoom.hoverStatue() : null
+    renaissanceRoom.group.visible ? renaissanceRoom.hoverStatue() : null
+    
     // camera.lookAt(scene.position)
     // Render
     controls.update( clock.getDelta() );
