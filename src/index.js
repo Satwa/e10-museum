@@ -4,6 +4,7 @@ import LoadingScreen from './classes/LoadingScreen'
 import GreeceRoom from './classes/GreeceRoom'
 import RenaissanceRoom from './classes/RenaissanceRoom'
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Context from "./classes/Context";
 
 
@@ -54,8 +55,21 @@ controls.movementSpeed = 10;
 controls.lookSpeed = 0.1;
 controls.lookVertical = false
 
+/*
+const controls = new OrbitControls(camera,renderer.domElement)
 
-
+window.addEventListener('keypress',(_event)=>{
+    if(_event.key == "l")
+    {
+        console.log("posX : "+ camera.position.x)
+        console.log("posY : "+camera.position.y)
+        console.log("posZ : "+camera.position.z)
+        console.log("rotX : "+camera.rotation.x)
+        console.log("rotY : "+camera.rotation.y)
+        console.log("rotZ : "+camera.rotation.z)
+    }
+})
+*/
 /**
  * Resize
  */
@@ -85,7 +99,7 @@ loadingScreen.group.rotation.y = Math.PI / 4
 scene.add(loadingScreen.group)
 */
 
-const context = new Context()
+const context = new Context(camera)
 
 // Greece Room
 const greeceRoom = new GreeceRoom(camera,controls,scene,context)

@@ -7,6 +7,8 @@ import floorColorSource from './../textures/floor/WoodFlooringMerbauBrickBondNat
 import floorNormalSource from './../textures/floor/WoodFlooringMerbauBrickBondNatural001_NRM_3K.png'
 import wallColorSource from './../textures/floor2/Brick_wall_006_COLOR.jpg'
 import wallNormalSource from './../textures/floor2/Brick_wall_006_NRM.jpg'
+import graniteColorSource from './../textures/Granite_001_SD/Granite_001_COLOR.jpg'
+import graniteNormalSource from './../textures/Granite_001_SD/Granite_001_NORM.jpg'
 import Column from "./Column";
 
 export default class GreeceRoom {
@@ -20,7 +22,7 @@ export default class GreeceRoom {
         this.statue = []
         this.statueOn = null;
         this.groupLightOn = new THREE.Group()
-        this.context.nbModelImport += 3
+        this.context.nbModelImport += 4
         this.init()
         window.addEventListener('click',()=>{this.showModel()})
         document.querySelector('.buttonQuitMenu').addEventListener('click', ()=> {this.quitShowingStatue()})
@@ -67,6 +69,18 @@ export default class GreeceRoom {
         wallNormalTexture.repeat.x = 4
         wallNormalTexture.repeat.y = 4
 
+        const graniteColorTexture = this.context.textureLoader.load(graniteColorSource)
+        wallNormalTexture.wrapS = THREE.RepeatWrapping
+        wallNormalTexture.wrapT = THREE.RepeatWrapping
+        wallNormalTexture.repeat.x = 4
+        wallNormalTexture.repeat.y = 4
+
+        const graniteNormalTexture = this.context.textureLoader.load(graniteNormalSource)
+        wallNormalTexture.wrapS = THREE.RepeatWrapping
+        wallNormalTexture.wrapT = THREE.RepeatWrapping
+        wallNormalTexture.repeat.x = 4
+        wallNormalTexture.repeat.y = 4
+
 
         const wallMaterial = new THREE.MeshStandardMaterial(
             {
@@ -80,9 +94,17 @@ export default class GreeceRoom {
                 normalMap: floorNormalTexture
             }
         )
+        const graniteMaterial = new THREE.MeshStandardMaterial(
+            {
+                map: graniteColorTexture,
+                normalMap: graniteNormalTexture
+            }
+        )
+
         const wallNSGeometry = new THREE.PlaneGeometry(10,6,20,5)
         const wallEOGeometry = new THREE.PlaneGeometry(10,6,20,5)
         const floorGeometry = new THREE.PlaneGeometry(10,10,5,5)
+        const consoleGeometry = new THREE.BoxGeometry(2,1,1.6)
 
         const floor = new THREE.Mesh(floorGeometry,floorMaterial)
         floor.rotation.x = -1.5708
@@ -124,6 +146,9 @@ export default class GreeceRoom {
         wallO.castShadow = false
         wallO.receiveShadow = true
 
+        const consoleStatue = new THREE.Mesh(consoleGeometry,graniteMaterial)
+        consoleStatue.position.z = -3.37
+
         const lightRoom1 = new THREE.SpotLight(0xffcc00,0.8)
         lightRoom1.position.y = 4.9
         lightRoom1.position.x = 0
@@ -146,6 +171,7 @@ export default class GreeceRoom {
         room.add(lightRoom1)
         room.add(floor)
         room.add(roof)
+        room.add(consoleStatue)
         room.add(wallN)
         room.add(wallS)
         room.add(wallE)
@@ -180,15 +206,15 @@ export default class GreeceRoom {
             const hercule =  new Statue(this.context)
             const  venusMilo = new Statue(this.context)
             const nikeSamo =  new Statue(this.context)
-            await hercule.update(this,'/models/hercule/scene.gltf',3,0.12,-10.25,0.5,8.9,-0.39, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,0.10,"y","left",document.querySelector('#hercule'))
-            await venusMilo.update(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'))
-            await nikeSamo.update(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'))
-            resolve('load')
-            console.log(hercule)
-            console.log(venusMilo)
-            console.log(nikeSamo)
-        })
+            const laLoire =  new Statue(this.context)
+            await hercule.update(this,'/models/hercule/scene.gltf',3,0.12,-10.25,0.5,8.9,-0.39, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,0.10,"y","left",document.querySelector('#hercule'),1)
+            await venusMilo.update(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'),1)
+            await nikeSamo.update(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'),1)
+            await laLoire.update(this,'/models/la_loire_et_le_loiret/scene.gltf',4,0.13,13.4,4.85,0.7,0,0,-1.5708, -4.047,2.18015, -1.9339, -0.5791,0.2609,0.1671, 0.1,"z","left",document.querySelector('#NikeSamothrace'),0.3)
 
+            resolve('load')
+            console.log(laLoire)
+        })
     }
 
     hoverStatue()
@@ -283,7 +309,7 @@ export default class GreeceRoom {
             this.statueOn.outContainerInformation()
             this.groupLightOn.remove(this.groupLightOn.children[0])
             this.statueOn.model.scale.set(this.statueOn.scale,this.statueOn.scale,this.statueOn.scale)
-            this.statueOn.scene.position.y -= 1
+            this.statueOn.scene.position.y -= this.statueOn.upY
             this.statueOn.animation.kill()
             if(this.statueOn.axeToRotate == 'y')
             {

@@ -1,12 +1,15 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-import {TweenLite} from "gsap/gsap-core";
+import { gsap } from 'gsap'
+import { CSSPlugin } from 'gsap/CSSPlugin'
+gsap.registerPlugin(CSSPlugin)
+
 
 
 export default class Context {
 
-    constructor() {
+    constructor(camera) {
 
         this.sizesWidth = window.innerWidth
         this.sizesHeight = window.innerHeight
@@ -16,6 +19,7 @@ export default class Context {
         this.textureLoader = new THREE.TextureLoader()
         this.dracoLoader = new DRACOLoader()
         this.dracoLoader.setDecoderPath('/draco/')
+        this.dracoLoader.preload();
         this.gltfLoader = new GLTFLoader()
         this.gltfLoader.setDRACOLoader(this.dracoLoader)
         this.totalLoad = 0
@@ -23,6 +27,7 @@ export default class Context {
         this.nbCurrentModelImport = 0
         this.nbModelImport = 0
         this.countHover = 0
+        this.camera = camera
 
         window.addEventListener('mousemove', (_event) => {
             this.cursorX = _event.clientX / this.sizesWidth - 0.5
@@ -32,12 +37,12 @@ export default class Context {
 
     updateProgressePourcent()
     {
-        if(this.nbModelImport == 0){this.nbModelImport = 1}
+        if(this.nbModelImport == 0){this.nbModelImport = 10}
         this.nbCurrentModelImport++
         const progressePourcent = document.querySelector('.pourcentValue')
         const oldValue = parseInt(progressePourcent.innerText)
         const newValue = (this.nbCurrentModelImport*100)/this.nbModelImport
-
+console.log(this.nbModelImport)
         let value = oldValue
         let int =  setInterval(()=>
         {
@@ -46,8 +51,9 @@ export default class Context {
                 value++
                 progressePourcent.innerText = value
             }
-            if(value == 100)
+            if(value >= 100)
             {
+                console.log('finish')
                 this.hiddenoadingScreen()
                 clearInterval(int);
             }
@@ -59,11 +65,11 @@ export default class Context {
     hiddenoadingScreen()
     {
         const loadingScreen = document.querySelector('.loadingScreen')
-        TweenLite.to(
+        gsap.to(
             loadingScreen,
             2,
             {
-                opacity:0,
+                opacity:'0',
                 display:'none',
                 ease: 'Power3.easeInOut'
             }

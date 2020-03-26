@@ -12,8 +12,9 @@ export default class Class {
     }
 
 
-    async update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX,rotY,rotZ,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction,$contentInfo)
+    async update(addTo,path,nbChildrend,scale,posY,posX,posZ,rotX,rotY,rotZ,posXView,posYView,posZView,rotXView,rotYView,rotZView,scaleTo,axeToRotate,direction,$contentInfo,upY)
     {
+        this.upY = upY
         this.scene = addTo.scene
         this.direction = direction
         const statue =  await this.addStatue(addTo,path)
@@ -104,13 +105,16 @@ export default class Class {
 
     animateStatue(camera)
     {
+        console.log(camera.rotation.x)
+        console.log(camera.rotation.y)
+        console.log(camera.rotation.z)
 
 
         TweenLite.to(
             this.scene.position,
             1,
             {
-                y: +1,
+                y: this.upY,
                 ease: 'Power3.easeInOut'
             }
         )
@@ -143,19 +147,19 @@ export default class Class {
             this.scene.position,
             1,
             {
-                y: 1.1,
+                y: this.upY +  0.1,
                 ease: "power2.inOut"
             }).to(
             this.scene.position,
             1,
             {
-                y: 1,
+                y: this.upY,
                 ease: "power2.inOut"
             }).to(
             this.scene.position,
             1,
             {
-                y: 1.1,
+                y: this.upY + 0.1,
                 ease: "power2.inOut"
             })
 
