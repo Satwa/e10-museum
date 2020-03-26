@@ -20,16 +20,45 @@ export default class Column{
         this.columnOccTexture.wrapS = THREE.RepeatWrapping
         this.columnOccTexture.wrapT = THREE.RepeatWrapping
 
+        this.group = new THREE.Group()
+
+        this.material = new THREE.MeshStandardMaterial({
+            map: this.columnTexture,
+            aoMap: this.columnOccTexture,
+            normalMap: this.columnNormalTexture,
+        })
+
         this.mesh = new THREE.Mesh(
             new THREE.CylinderGeometry(.4, .4, height, 100),
-            new THREE.MeshStandardMaterial({
-                map: this.columnTexture,
-                aoMap: this.columnOccTexture,
-                normalMap: this.columnNormalTexture,
-            })
+            this.material
+        )
+        this.group.add(this.mesh)
+        
+        this.bigBox = new THREE.Mesh( // Big box is watching you
+            new THREE.BoxGeometry(1, 1, 1),
+            this.material
         )
 
-        this.mesh.position.set(position.x, position.y + height/2, position.z)
-        addTo.group.add(this.mesh)
+        this.smallBox = new THREE.Mesh( // Big box is watching you
+            new THREE.BoxGeometry(.85, .85, .85),
+            this.material
+        )
+
+        this.bigBox.position.y = position.y - height/2
+        this.smallBox.position.y = position.y - height/2 + .2
+        
+        this.bigBoxTop = this.bigBox.clone()
+        this.bigBoxTop.position.y = height/2 - 2.5
+        
+        this.smallBoxTop = this.smallBox.clone()
+        this.smallBoxTop.position.y = height/2 - 2.8
+
+        this.group.add(this.bigBox)
+        this.group.add(this.smallBox)
+        this.group.add(this.bigBoxTop)
+        this.group.add(this.smallBoxTop)
+
+        this.group.position.set(position.x, position.y + height/2, position.z)
+        addTo.group.add(this.group)
     }
 }

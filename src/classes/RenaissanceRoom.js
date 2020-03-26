@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import {TweenLite} from 'gsap/all'
-import {TimelineMax} from 'gsap/all'
 import Context from './Context'
 import Statue from './Statue'
 import floorColorSource from './../textures/floor3/wood-flooring-026_d.png'
@@ -9,6 +8,7 @@ import floorRoughnessSource from './../textures/floor3/wood-flooring-026_r.png'
 import wallNormalSource from './../textures/floor2/Brick_wall_006_COLOR.jpg'
 import Frame from './Frame'
 import Column from './Column'
+import Bench from './Bench'
 
 export default class RenaissanceRoom {
     constructor(camera, controls, scene,context) {
@@ -144,13 +144,15 @@ export default class RenaissanceRoom {
         floor.rotation.x = -1.5708
 
         const roof = new THREE.Mesh(
-            new THREE.CylinderGeometry(15, 15, 10, 8, 1, false, 0, Math.PI), 
-            new THREE.MeshNormalMaterial({side: THREE.DoubleSide}) // TODO: Change this texture
+            new THREE.CylinderGeometry(5, 5, 10, 8, 1, false, 0, Math.PI), 
+            new THREE.MeshNormalMaterial({side: THREE.BackSide}) // TODO: Change this texture
         )
         roof.position.y = 6
-        roof.rotation.x = Math.PI / 2
-        roof.rotation.y = Math.PI / 2
+        roof.rotation.x = Math.PI
+        roof.rotation.y = Math.PI 
+        roof.rotation.z = -Math.PI / 2
         roof.scale.x = .3
+        roof.scale.y = 3
 
         const wallN = new THREE.Mesh(wallNSGeometry, wallMaterial)
         wallN.position.z = -5
@@ -212,20 +214,20 @@ export default class RenaissanceRoom {
 
 
     async createAllStatue() {
-        const david = new Statue(this.context)
-        await david.update(
-            this,
-            '/models/david/12330_Statue_v1_L2.gltf',
-            0,
-            .007,
-            0, 4.2, 4,
-            -Math.PI / 2, 0, -Math.PI,
-            -2, 2, 1,
-            -Math.PI / 10, Math.PI, 0,
-            .008,
-            "x", "left",
-            document.querySelector("#davidMichelangelo")
-        )
+        // const david = new Statue(this.context)
+        // await david.update(
+        //     this, // addTo
+        //     '/models/david/david.glb', // path
+        //     0, // nbChildren
+        //     .1, // scale
+        //     0, 4.2, 4, // posY,X,Z
+        //     0, Math.PI, 0, // rotation
+        //     -2, 2, 1, // posView
+        //     -Math.PI / 10, Math.PI, 0, // rotView
+        //     .008, // scaleTo
+        //     "x", "left",
+        //     document.querySelector("#davidMichelangelo")
+        // )
 
         //
         //
@@ -436,7 +438,14 @@ export default class RenaissanceRoom {
             this.context
         )
 
-
+        const bench1 = new Bench(
+            this, 
+            new THREE.Vector3()
+        )
+        const bench2 = new Bench(
+            this, 
+            new THREE.Vector3(-10)
+        )
     }
 
     hoverStatue() {
