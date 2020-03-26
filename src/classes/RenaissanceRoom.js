@@ -269,7 +269,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(9, 2, 2),
             new THREE.Vector3(0, -Math.PI / 2),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#monaLisa")
+            document.querySelector("#monaLisa"),
+            this.context
         )
         monaLisa.direction = "left"
 
@@ -282,7 +283,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-12, 1.5, 2),
             new THREE.Vector3(0, Math.PI / 2),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#nocesCana")
+            document.querySelector("#nocesCana"),
+            this.context
         )
 
         //
@@ -298,7 +300,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-14, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#deposition")
+            document.querySelector("#deposition"),
+            this.context
         )
 
         const angeGardien = new Frame(
@@ -310,7 +313,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-10, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#angeGardien")
+            document.querySelector("#angeGardien"),
+            this.context
         )
 
         const couronnementVierge = new Frame(
@@ -322,7 +326,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#couronnementVierge")
+            document.querySelector("#couronnementVierge"),
+            this.context
         )
         couronnementVierge.direction = "left"
         
@@ -335,7 +340,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#viergeEnfantStAnne")
+            document.querySelector("#viergeEnfantStAnne"),
+            this.context
         )
 
         const portraitVieillardJeune = new Frame(
@@ -347,8 +353,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(2, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-
-            document.querySelector("#portraitVieillardJeune")
+            document.querySelector("#portraitVieillardJeune"),
+            this.context
         )
 
         const pelerinsEmmaus = new Frame(
@@ -360,8 +366,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(6, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-
-            document.querySelector("#pelerinsEmmaus")
+            document.querySelector("#pelerinsEmmaus"),
+            this.context
         )
 
         const hommeGant = new Frame(
@@ -373,8 +379,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(10, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-
-            document.querySelector("#hommeGant")
+            document.querySelector("#hommeGant"),
+            this.context
         )
 
         //
@@ -390,8 +396,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(6, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-
-            document.querySelector("#deuxChiensChasses")
+            document.querySelector("#deuxChiensChasses"),
+            this.context
         )
         deuxChiensChasses.direction = "left"
 
@@ -404,8 +410,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(10, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-
-            document.querySelector("#apollonDaphne")
+            document.querySelector("#apollonDaphne"),
+            this.context
         )
 
         const charlesJosephCrowle = new Frame(
@@ -417,8 +423,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-
-            document.querySelector("#charlesJosephCrowle")
+            document.querySelector("#charlesJosephCrowle"),
+            this.context
         )
         charlesJosephCrowle.direction = "left"
 
@@ -431,8 +437,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-
-            document.querySelector("#heliodoreTemple")
+            document.querySelector("#heliodoreTemple"),
+            this.context
         )
 
         const adorationBergers = new Frame(
@@ -444,8 +450,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-3.5, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-
-            document.querySelector("#adorationBergers")
+            document.querySelector("#adorationBergers"),
+            this.context
         )
 
         const bench1 = new Bench(
