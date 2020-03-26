@@ -9,7 +9,7 @@ export default class HoleDigger {
         _holeMesh.position.set(holePosition.x, holePosition.y, holePosition.z)
         _holeMesh.rotation.set(holeRotation.x, holeRotation.y, holeRotation.z)
         
-        const holeMesh     = new ThreeBSP(_holeMesh)
+        const holeMesh = new ThreeBSP(_holeMesh)
         const theBoringGeometry = originalMesh.subtract(holeMesh) // do you have the ref, dear Elon?
 
         this.mesh = theBoringGeometry.toMesh()

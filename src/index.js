@@ -1,13 +1,6 @@
 import './style/app.styl'
 import * as THREE from 'three'
-import LoadingScreen from './classes/LoadingScreen'
-import GreeceRoom from './classes/GreeceRoom'
-import RenaissanceRoom from './classes/RenaissanceRoom'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { FirstPersonControls } from './classes/FirstPersonControls'
 import Context from "./classes/Context";
-
-
 
 const sizes = {}
 sizes.width = window.innerWidth
@@ -47,11 +40,6 @@ renderer.shadowMap.type = THREE.PCFShadowMap;
 document.body.appendChild(renderer.domElement)
 
 
-
-
-
-
-
 /**
  * Resize
  */
@@ -83,4 +71,3 @@ scene.add(loadingScreen.group)
 
 const context = new Context(camera,scene,renderer)
 context.init()
-
