@@ -45,15 +45,8 @@ renderer.shadowMap.enabled = false
 renderer.shadowMap.type = THREE.PCFShadowMap;
 document.body.appendChild(renderer.domElement)
 
-/**
- * Controls
- * @type {FirstPersonControls}
- */
 
-const controls = new FirstPersonControls(camera,renderer.domElement)
-controls.movementSpeed = 10;
-controls.lookSpeed = 0.1;
-controls.lookVertical = false
+
 
 /*
 const controls = new OrbitControls(camera,renderer.domElement)
@@ -99,41 +92,6 @@ loadingScreen.group.rotation.y = Math.PI / 4
 scene.add(loadingScreen.group)
 */
 
-const context = new Context(camera)
+const context = new Context(camera,scene,renderer)
+context.init()
 
-// Greece Room
-const greeceRoom = new GreeceRoom(camera,controls,scene,context)
-greeceRoom.group.position.x = 0
-scene.add(greeceRoom.group)
-
-// Renaissance Room
-const renaissanceRoom = new RenaissanceRoom(camera, controls, scene)
-renaissanceRoom.group.position.x = 0
-renaissanceRoom.group.visible = false
-scene.add(renaissanceRoom.group)
-
-
-// debug room switch
-window.addEventListener("keydown", (_event) => {
-    if(_event.key == "p" || _event.key == "P"){
-        greeceRoom.group.visible = !greeceRoom.group.visible
-        renaissanceRoom.group.visible = !renaissanceRoom.group.visible
-    }
-})
-
-/**
- * Loop
- */
-const clock = new THREE.Clock();
-const loop = () => {
-    window.requestAnimationFrame(loop)
-
-    greeceRoom.group.visible ? greeceRoom.hoverStatue() : null
-    renaissanceRoom.group.visible ? renaissanceRoom.hoverStatue() : null
-    
-    // camera.lookAt(scene.position)
-    // Render
-    controls.update( clock.getDelta() );
-    renderer.render(scene, camera)
-}
-loop()
