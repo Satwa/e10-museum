@@ -6,18 +6,18 @@ import Statue from './Statue'
 import floorColorSource from './../textures/floor3/wood-flooring-026_d.png'
 import floorBumpSource from './../textures/floor3/wood-flooring-026_b.png'
 import floorRoughnessSource from './../textures/floor3/wood-flooring-026_r.png'
-import wallNormalSource from './../textures/floor2/Brick_wall_006_NRM.jpg'
+import wallNormalSource from './../textures/floor2/Brick_wall_006_COLOR.jpg'
 import Frame from './Frame'
 import Column from './Column'
 
 export default class RenaissanceRoom {
-    constructor(camera, controls, scene) {
+    constructor(camera, controls, scene,context) {
         this.group = new THREE.Group()
         this.camera = camera
         this.controls = controls
-        // this.renderer = renderer
+        //this.renderer = renderer
         this.scene = scene
-        this.context = new Context()
+        this.context = context
 
         this.statue = []
         this.frames = []
@@ -251,7 +251,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(9, 2, 2),
             new THREE.Vector3(0, -Math.PI / 2),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
         monaLisa.direction = "left"
 
@@ -264,7 +265,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-12, 1.5, 2),
             new THREE.Vector3(0, Math.PI / 2),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
 
         //
@@ -280,7 +282,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-14, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
 
         const angeGardien = new Frame(
@@ -292,7 +295,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-10, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
 
         const couronnementVierge = new Frame(
@@ -304,7 +308,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
         couronnementVierge.direction = "left"
         
@@ -317,7 +322,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
 
         const portraitVieillardJeune = new Frame(
@@ -329,7 +335,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(2, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
 
         const pelerinsEmmaus = new Frame(
@@ -341,7 +348,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(6, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
 
         const hommeGant = new Frame(
@@ -353,7 +361,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(10, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
 
         //
@@ -369,7 +378,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(6, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
         deuxChiensChasses.direction = "left"
 
@@ -382,7 +392,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(10, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
 
         const charlesJosephCrowle = new Frame(
@@ -394,7 +405,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
         charlesJosephCrowle.direction = "left"
 
@@ -407,7 +419,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
 
         const adorationBergers = new Frame(
@@ -419,7 +432,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-3.5, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo")
+            document.querySelector("#davidMichelangelo"),
+            this.context
         )
 
 

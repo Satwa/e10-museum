@@ -105,9 +105,6 @@ export default class Class {
 
     animateStatue(camera)
     {
-        console.log(camera.rotation.x)
-        console.log(camera.rotation.y)
-        console.log(camera.rotation.z)
 
 
         TweenLite.to(

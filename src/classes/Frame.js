@@ -13,8 +13,8 @@ export default class Frame {
      * position/rotationView: Vector3 | how to place camera on click
      * scaleTo: n resize when focusing
      */
-    constructor(addToRoom, path, scale, position, rotation, positionView, rotationView, scaleTo, $contentInfo) {
-        this.context = new Context()
+    constructor(addToRoom, path, scale, position, rotation, positionView, rotationView, scaleTo, $contentInfo,context) {
+        this.context = context
         this.scene = addToRoom.scene
 
         // positionView.x += this.model.position.x
@@ -56,7 +56,6 @@ export default class Frame {
         this.context.textureLoader.load(path, (_texture) => {
             const ratio = _texture.image.width / _texture.image.height
 
-            console.log(ratio)
             const plane = new THREE.Mesh(
                 new THREE.PlaneGeometry(2 * ratio, 2),
                 new MeshStandardMaterial({
