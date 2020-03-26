@@ -134,6 +134,12 @@ export default class RenaissanceRoom {
             color: 0x5e1612,
             normalMap: wallNormalTexture
         })
+        const roofMaterial = new THREE.MeshStandardMaterial({
+            map: floorColorTexture,
+            bumpMap: floorBumpTexture,
+            roughnessMap: floorRoughnessTexture,
+            side: THREE.BackSide
+        })
         
         // new THREE.PlaneGeometry()
         const wallNSGeometry = new THREE.PlaneGeometry(30, 6, 20, 5)
@@ -141,37 +147,47 @@ export default class RenaissanceRoom {
         const floorGeometry = new THREE.PlaneGeometry(30, 10, 5, 5)
 
         const floor = new THREE.Mesh(floorGeometry, floorMaterial)
-        floor.rotation.x = -1.5708
+        floor.rotation.x = -Math.PI/2
+        floor.receiveShadow = true
+        floor.castShadow = false
 
         const roof = new THREE.Mesh(
             new THREE.CylinderGeometry(5, 5, 10, 8, 1, false, 0, Math.PI), 
-            new THREE.MeshNormalMaterial({side: THREE.BackSide}) // TODO: Change this texture
+            roofMaterial// new THREE.MeshNormalMaterial({side: THREE.BackSide}) // TODO: Change this texture
         )
         roof.position.y = 6
         roof.rotation.x = Math.PI
         roof.rotation.y = Math.PI 
         roof.rotation.z = -Math.PI / 2
-        roof.scale.x = .3
+        roof.scale.x = .4
         roof.scale.y = 3
 
         const wallN = new THREE.Mesh(wallNSGeometry, wallMaterial)
         wallN.position.z = -5
         wallN.position.y = 3
+        wallN.receiveShadow = true
+        wallN.castShadow = false
 
         const wallS = new THREE.Mesh(wallNSGeometry, wallMaterial)
         wallS.position.z = 5
         wallS.position.y = 3
         wallS.rotation.x = -1.5708 * 2
+        wallS.receiveShadow = true
+        wallS.castShadow = false
 
         const wallE = new THREE.Mesh(wallEOGeometry, wallMaterial)
         wallE.position.y = + 3
         wallE.position.x = - 15
         wallE.rotation.y = 1.5708
+        wallE.receiveShadow = true
+        wallE.castShadow = false
 
         const wallO = new THREE.Mesh(wallEOGeometry, wallMaterial)
         wallO.position.y = + 3
         wallO.position.x = 15
         wallO.rotation.y = -1.5708
+        wallO.receiveShadow = true
+        wallO.castShadow = false
 
         const lightRoom1 = new THREE.SpotLight(0xffcc00, 0.8)
         lightRoom1.position.y = 4.9
@@ -253,8 +269,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(9, 2, 2),
             new THREE.Vector3(0, -Math.PI / 2),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+            document.querySelector("#monaLisa")
         )
         monaLisa.direction = "left"
 
@@ -267,8 +282,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-12, 1.5, 2),
             new THREE.Vector3(0, Math.PI / 2),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+            document.querySelector("#nocesCana")
         )
 
         //
@@ -284,8 +298,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-14, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+            document.querySelector("#deposition")
         )
 
         const angeGardien = new Frame(
@@ -297,8 +310,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-10, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+            document.querySelector("#angeGardien")
         )
 
         const couronnementVierge = new Frame(
@@ -310,8 +322,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+            document.querySelector("#couronnementVierge")
         )
         couronnementVierge.direction = "left"
         
@@ -324,8 +335,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+            document.querySelector("#viergeEnfantStAnne")
         )
 
         const portraitVieillardJeune = new Frame(
@@ -337,8 +347,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(2, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+
+            document.querySelector("#portraitVieillardJeune")
         )
 
         const pelerinsEmmaus = new Frame(
@@ -350,8 +360,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(6, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+
+            document.querySelector("#pelerinsEmmaus")
         )
 
         const hommeGant = new Frame(
@@ -363,8 +373,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(10, 2, -2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+
+            document.querySelector("#hommeGant")
         )
 
         //
@@ -380,8 +390,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(6, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+
+            document.querySelector("#deuxChiensChasses")
         )
         deuxChiensChasses.direction = "left"
 
@@ -394,8 +404,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(10, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+
+            document.querySelector("#apollonDaphne")
         )
 
         const charlesJosephCrowle = new Frame(
@@ -407,12 +417,12 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+
+            document.querySelector("#charlesJosephCrowle")
         )
         charlesJosephCrowle.direction = "left"
 
-        const heliodreTemple = new Frame(
+        const heliodoreTemple = new Frame(
             this,
             "/paintings/Heliodore-chasse-du-Temple.jpg",
             new THREE.Vector3(1, 1, 1),
@@ -421,8 +431,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(0, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+
+            document.querySelector("#heliodoreTemple")
         )
 
         const adorationBergers = new Frame(
@@ -434,8 +444,8 @@ export default class RenaissanceRoom {
             new THREE.Vector3(-3.5, 2, 2),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
-            document.querySelector("#davidMichelangelo"),
-            this.context
+
+            document.querySelector("#adorationBergers")
         )
 
         const bench1 = new Bench(

@@ -58,6 +58,12 @@ export default class Column{
         this.group.add(this.bigBoxTop)
         this.group.add(this.smallBoxTop)
 
+        
+        this.group.traverse((child) => {
+            child.castShadow = true
+            child.receiveShadow = true
+        })
+
         this.group.position.set(position.x, position.y + height/2, position.z)
         addTo.group.add(this.group)
     }
