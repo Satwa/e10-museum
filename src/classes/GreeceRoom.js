@@ -10,6 +10,7 @@ import graniteNormalSource from './../textures/Granite_001_SD/aeogd-ergzr.dds'
 import floorColorSource from './../textures/floor/WoodFlooringMerbauBrickBondNatural001_COL_3K.jpg'
 import floorNormalSource from './../textures/floor/WoodFlooringMerbauBrickBondNatural001_COL_3K.jpg'
 import Column from "./Column";
+import HoleDigger from './Hole'
 
 export default class GreeceRoom {
 
@@ -107,7 +108,7 @@ export default class GreeceRoom {
 
 
         const wallNSGeometry = new THREE.PlaneGeometry(10,6,20,5)
-        const wallEOGeometry = new THREE.PlaneGeometry(10,6,20,5)
+        const wallEOGeometry = new THREE.BoxGeometry(10, 6, .1, 20, 5)
         const floorGeometry = new THREE.PlaneGeometry(10,10,5,5)
         const consoleGeometry = new THREE.BoxGeometry(2,1,1.6)
         const console2Geometry = new THREE.BoxGeometry(1,1.3,1.4)
@@ -136,21 +137,20 @@ export default class GreeceRoom {
         wallS.receiveShadow = true
         wallS.castShadow = false
 
-
-        const wallE =  new THREE.Mesh(wallEOGeometry, wallMaterial)
+        const wallE = new THREE.Mesh(wallEOGeometry, wallMaterial)
         wallE.position.y = + 3
         wallE.position.x = - 5
-        wallE.rotation.y = 1.5708
+        wallE.rotation.y = Math.PI / 2
         wallE.receiveShadow = true
         wallE.castShadow = false
 
 
-        const wallO =  new THREE.Mesh(wallEOGeometry,wallMaterial)
-        wallO.position.y = + 3
-        wallO.position.x =  5
-        wallO.rotation.y = -1.5708
-        wallO.castShadow = false
-        wallO.receiveShadow = true
+        const wallO = new HoleDigger(wallEOGeometry.clone(), new THREE.BoxGeometry(3.35, 4, .1), wallMaterial, new THREE.Vector3(0, -1), new THREE.Vector3(0, -Math.PI))
+        wallO.getMesh().position.y = + 3
+        wallO.getMesh().position.x =  5
+        wallO.getMesh().rotation.y = -Math.PI/2
+        wallO.getMesh().castShadow = false
+        wallO.getMesh().receiveShadow = true
 
         const consoleStatue = new THREE.Mesh(consoleGeometry,graniteMaterial)
         consoleStatue.position.z = -3.37
@@ -187,7 +187,7 @@ export default class GreeceRoom {
         room.add(wallN)
         room.add(wallS)
         room.add(wallE)
-        room.add(wallO)
+        room.add(wallO.getMesh())
         room.scale.set(1.2,1.2,1.2)
         this.group.add(room)
     }

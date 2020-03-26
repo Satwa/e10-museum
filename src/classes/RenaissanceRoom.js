@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import {TweenLite} from 'gsap/all'
-import Context from './Context'
 import Statue from './Statue'
 import floorColorSource from './../textures/floor3/wood-flooring-026_d.png'
 import floorBumpSource from './../textures/floor3/wood-flooring-026_b.png'
@@ -9,6 +8,7 @@ import wallNormalSource from './../textures/floor2/Brick_wall_006_COLOR.jpg'
 import Frame from './Frame'
 import Column from './Column'
 import Bench from './Bench'
+import HoleDigger from './Hole'
 
 export default class RenaissanceRoom {
     constructor(camera, controls, scene,context) {
@@ -142,7 +142,7 @@ export default class RenaissanceRoom {
         })
         
         // new THREE.PlaneGeometry()
-        const wallNSGeometry = new THREE.PlaneGeometry(30, 6, 20, 5)
+        const wallNSGeometry = new THREE.BoxGeometry(30, 6,.1, 20, 5)//new THREE.PlaneGeometry(30, 6, 20, 5)
         const wallEOGeometry = new THREE.PlaneGeometry(10, 6, 20, 5)
         const floorGeometry = new THREE.PlaneGeometry(30, 10, 5, 5)
 
@@ -163,17 +163,19 @@ export default class RenaissanceRoom {
         roof.scale.y = 3
 
         const wallN = new THREE.Mesh(wallNSGeometry, wallMaterial)
-        wallN.position.z = -5
+        wallN.position.z = -5.05
         wallN.position.y = 3
         wallN.receiveShadow = true
         wallN.castShadow = false
 
-        const wallS = new THREE.Mesh(wallNSGeometry, wallMaterial)
-        wallS.position.z = 5
-        wallS.position.y = 3
-        wallS.rotation.x = -1.5708 * 2
-        wallS.receiveShadow = true
-        wallS.castShadow = false
+        // Diggy digger
+        const wallS = new HoleDigger(wallNSGeometry.clone(), new THREE.BoxGeometry(3.35, 4, .1), wallMaterial, new THREE.Vector3(-12.5, 1))
+        // const wallS = new THREE.Mesh(wallNSGeometry, wallMaterial)
+        wallS.getMesh().position.z = 5.05
+        wallS.getMesh().position.y = 3
+        wallS.getMesh().rotation.x = -Math.PI
+        wallS.getMesh().receiveShadow = true
+        wallS.getMesh().castShadow = false
 
         const wallE = new THREE.Mesh(wallEOGeometry, wallMaterial)
         wallE.position.y = + 3
@@ -200,7 +202,14 @@ export default class RenaissanceRoom {
         lightRoom1.shadow.camera.near = 0.2
         lightRoom1.shadow.camera.far = 100
 
-        const col1 = new Column(this, new THREE.Vector3(3, 0, 3), 15)
+        new Column(this, new THREE.Vector3(10, 0, 3), 12)
+        new Column(this, new THREE.Vector3(10, 0, -3), 12)
+
+        new Column(this, new THREE.Vector3(0, 0, 3), 12)
+        new Column(this, new THREE.Vector3(0, 0, -3), 12)
+
+        new Column(this, new THREE.Vector3(-10, 0, 3), 12)
+        new Column(this, new THREE.Vector3(-10, 0, -3), 12)
 
         const room = new THREE.Group()
 
@@ -208,7 +217,7 @@ export default class RenaissanceRoom {
         room.add(floor)
         room.add(roof)
         room.add(wallN)
-        room.add(wallS)
+        room.add(wallS.getMesh())
         room.add(wallE)
         room.add(wallO)
         room.scale.set(1.2, 1.2, 1.2)
