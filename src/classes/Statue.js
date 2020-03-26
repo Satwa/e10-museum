@@ -223,6 +223,7 @@ export default class Class {
         {
             start = "translateX(0vw)"
             end = "translateX(-50vw)"
+
         }
 
         TweenLite.from(
@@ -247,5 +248,13 @@ export default class Class {
             }
         )
         this.$contentInfo.classList.remove('show')
+        if(this.direction == "left")
+        {
+           document.querySelector('.containerInformation').classList.remove('right')
+        }
+        else
+        {
+            document.querySelector('.containerInformation').classList.remove('left')
+        }
     }
 }

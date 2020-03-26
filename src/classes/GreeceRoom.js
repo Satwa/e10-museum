@@ -22,7 +22,7 @@ export default class GreeceRoom {
         this.statue = []
         this.statueOn = null;
         this.groupLightOn = new THREE.Group()
-        this.context.nbModelImport += 4
+        this.context.nbModelImport += 6
     }
 
     async init()
@@ -110,6 +110,7 @@ export default class GreeceRoom {
         const wallEOGeometry = new THREE.PlaneGeometry(10,6,20,5)
         const floorGeometry = new THREE.PlaneGeometry(10,10,5,5)
         const consoleGeometry = new THREE.BoxGeometry(2,1,1.6)
+        const console2Geometry = new THREE.BoxGeometry(1,1.3,1.4)
 
         const floor = new THREE.Mesh(floorGeometry,floorMaterial)
         floor.rotation.x = -1.5708
@@ -154,6 +155,11 @@ export default class GreeceRoom {
         const consoleStatue = new THREE.Mesh(consoleGeometry,graniteMaterial)
         consoleStatue.position.z = -3.37
 
+        const console2Statue = new THREE.Mesh(console2Geometry,graniteMaterial)
+        console2Statue.position.x = -3.7
+        console2Statue.position.z = 3.45
+        console2Statue.position.y = 0
+
         const lightRoom1 = new THREE.SpotLight(0xffcc00,0.8)
         lightRoom1.position.y = 4.9
         lightRoom1.position.x = 0
@@ -177,6 +183,7 @@ export default class GreeceRoom {
         room.add(floor)
         room.add(roof)
         room.add(consoleStatue)
+        room.add(console2Statue)
         room.add(wallN)
         room.add(wallS)
         room.add(wallE)
@@ -209,14 +216,20 @@ export default class GreeceRoom {
         return new Promise(async (resolve) =>
         {
             const hercule =  new Statue(this.context)
+            const spartacus =  new Statue(this.context)
             const venusMilo = new Statue(this.context)
             const nikeSamo =  new Statue(this.context)
             const laLoire =  new Statue(this.context)
+            const marcusAurelius =  new Statue(this.context)
             await hercule.update(this,'/models/hercule/scene.gltf',3,0.12,-10.25,0.5,8.9,-0.39, 1.5708 * 2, 0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,0.10,"y","left",document.querySelector('#hercule'),1)
+            await spartacus.update(this,'/models/spartacus/scene.gltf',1,0.085,0,-4.2,-3.7,-1.5708,0,-1.0708, 1.9721,2.4760, -1.5317,0,0.41728,0,0.07,"z","left",document.querySelector('#spartacus'),1.3 )
             await venusMilo.update(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'),1)
             await nikeSamo.update(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'),1)
             await laLoire.update(this,'/models/la_loire_et_le_loiret/scene.gltf',4,0.13,13.4,4.85,0.7,0,0,-1.5708, -4.047,2.18015, -1.9339, -0.5791,0.2609,0.1671, 0.1,"z","left",document.querySelector('#NikeSamothrace'),0.3)
+            await marcusAurelius.update(this,'/models/marcus_aurelius/scene.gltf',1,0.18,1.5,-4.4,4,-1.5708,0,1.5708 *2, 0.8386,2.3763, 1.8723, -2.6339,0.6549,2.8077, 0.1,"z","left",document.querySelector('#NikeSamothrace'),0.3)
             resolve('load')
+            console.log(spartacus.direction)
+            console.log(marcusAurelius)
         })
     }
 

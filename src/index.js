@@ -38,6 +38,7 @@ scene.add(camera)
 /**
  * Renderer
  */
+
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(window.devicePixelRatio)
@@ -48,21 +49,9 @@ document.body.appendChild(renderer.domElement)
 
 
 
-/*
-const controls = new OrbitControls(camera,renderer.domElement)
 
-window.addEventListener('keypress',(_event)=>{
-    if(_event.key == "l")
-    {
-        console.log("posX : "+ camera.position.x)
-        console.log("posY : "+camera.position.y)
-        console.log("posZ : "+camera.position.z)
-        console.log("rotX : "+camera.rotation.x)
-        console.log("rotY : "+camera.rotation.y)
-        console.log("rotZ : "+camera.rotation.z)
-    }
-})
-*/
+
+
 /**
  * Resize
  */

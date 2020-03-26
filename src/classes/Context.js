@@ -7,6 +7,7 @@ import { CSSPlugin } from 'gsap/CSSPlugin'
 import GreeceRoom from "./GreeceRoom";
 import RenaissanceRoom from "./RenaissanceRoom";
 import {FirstPersonControls} from "./FirstPersonControls";
+import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 gsap.registerPlugin(CSSPlugin)
 
 
@@ -43,6 +44,20 @@ export default class Context {
         window.addEventListener('mousemove', (_event) => {
             this.cursorX = _event.clientX / this.sizesWidth - 0.5
             this.cursorY = _event.clientY / this.sizesHeight - 0.5
+        })
+
+       // this.controls = new OrbitControls(camera,renderer.domElement)
+
+        window.addEventListener('keypress',(_event)=>{
+            if(_event.key == "l")
+            {
+                console.log("posX : "+ camera.position.x)
+                console.log("posY : "+camera.position.y)
+                console.log("posZ : "+camera.position.z)
+                console.log("rotX : "+camera.rotation.x)
+                console.log("rotY : "+camera.rotation.y)
+                console.log("rotZ : "+camera.rotation.z)
+            }
         })
     }
 
