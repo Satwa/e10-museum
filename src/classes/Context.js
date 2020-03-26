@@ -143,14 +143,37 @@ export default class Context {
     hiddenoadingScreen()
     {
         const loadingScreen = document.querySelector('.loadingScreen')
+        const pourcentContent = document.querySelector('.pourcentContent')
+        const start = document.querySelector('.start')
+
+        gsap.to(
+            pourcentContent,
+            1,
+            {
+                opacity:'0',
+                display: 'none',
+                ease: 'Power3.easeInOut'
+            }
+        )
+
+        gsap.to(
+           start,
+            2,
+            {
+                display: "block",
+                opacity:'1',
+                ease: 'Power3.easeInOut'
+            }
+        ).delay(1.2)
+
         gsap.to(
             loadingScreen,
-            2,
+            3,
             {
                 opacity:'0',
                 display:'none',
                 ease: 'Power3.easeInOut'
             }
-        )
+        ).delay(2.8)
     }
 }
