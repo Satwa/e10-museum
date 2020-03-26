@@ -3,8 +3,8 @@ import * as THREE from 'three'
 import LoadingScreen from './classes/LoadingScreen'
 import GreeceRoom from './classes/GreeceRoom'
 import RenaissanceRoom from './classes/RenaissanceRoom'
-import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { FirstPersonControls } from './classes/FirstPersonControls'
 import Context from "./classes/Context";
 
 

@@ -5,7 +5,7 @@ import columnNormalSource from '../textures/concrete2/Concrete_Column_001_normal
 import columnOccSource from '../textures/concrete2/Concrete_Column_001_ambientOcclusion.jpg'
 
 export default class Column{
-    constructor(addTo, position){
+    constructor(addTo, position, height = 10){
         this.context = addTo.context
 
         this.columnTexture = this.context.textureLoader.load(columnSource)
@@ -21,7 +21,7 @@ export default class Column{
         this.columnOccTexture.wrapT = THREE.RepeatWrapping
 
         this.mesh = new THREE.Mesh(
-            new THREE.CylinderGeometry(.4, .4, 10, 100),
+            new THREE.CylinderGeometry(.4, .4, height, 100),
             new THREE.MeshStandardMaterial({
                 map: this.columnTexture,
                 aoMap: this.columnOccTexture,
@@ -29,7 +29,7 @@ export default class Column{
             })
         )
 
-        this.mesh.position.set(position.x, position.y, position.z)
+        this.mesh.position.set(position.x, position.y + height/2, position.z)
         addTo.group.add(this.mesh)
     }
 }
