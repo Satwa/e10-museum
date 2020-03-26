@@ -122,17 +122,21 @@ export default class Frame {
 
     getContainerInformation() {
         let start, end
+        const containerInformation = document.querySelector('#containerInformation')
+
         if(this.direction == "left") {
             start = "translateX(100vw)"
             end = "translateX(50vw)"
-        } else {
+            containerInformation.classList.add('right')
+        }else{
             start = "translateX(-50vw)"
             end = "translateX(0vw)"
+            containerInformation.classList.add('left')
         }
 
         TweenLite
-            .from("#containerInformation", 2, {
-                display: "block",
+            .from(containerInformation, 2, {
+                display: "flex",
                 opacity: 0,
                 transform: start,
                 ease: 'Power3.easeInOut'
@@ -140,8 +144,8 @@ export default class Frame {
             .delay(1)
 
         TweenLite
-            .to("#containerInformation", 2, {
-                display: "block",
+            .to(containerInformation, 2,{
+                display: "flex",
                 opacity: 1,
                 transform: end,
                 ease: 'Power3.easeInOut'
@@ -152,27 +156,31 @@ export default class Frame {
 
     outContainerInformation() {
         let start, end
+        const containerInformation = document.querySelector('#containerInformation')
+
         if(this.direction == "left") {
             start = "translateX(50vw)"
             end = "translateX(100vw)"
-        }else {
+        }
+        else {
             start = "translateX(0vw)"
             end = "translateX(-50vw)"
         }
 
-        TweenLite.from("#containerInformation", 2, {
-            display: "block",
+        TweenLite.from(containerInformation, 2, {
+            display: "flex",
             opacity: 1,
             transform: start,
             ease: 'Power3.easeInOut'
         })
 
-        TweenLite.to("#containerInformation", 2, {
+        TweenLite.to(containerInformation, 2, {
             display: "none",
             opacity: 0,
             transform: end,
             ease: 'Power3.easeInOut'
         })
+
         this.$contentInfo.classList.remove('show')
     }
 }
