@@ -135,9 +135,8 @@ export default class RenaissanceRoom {
             normalMap: wallNormalTexture
         })
         const roofMaterial = new THREE.MeshStandardMaterial({
-            map: floorColorTexture,
-            bumpMap: floorBumpTexture,
-            roughnessMap: floorRoughnessTexture,
+            color: 0x5e1612,
+            normalMap: wallNormalTexture,
             side: THREE.BackSide
         })
         
@@ -226,7 +225,7 @@ export default class RenaissanceRoom {
 
     moveCamera() {
         this.camera.position.x = 7
-        this.camera.position.y = 1
+        this.camera.position.y = 2
         this.camera.position.z = 0
         this.camera.rotation.y = 1.5708
 

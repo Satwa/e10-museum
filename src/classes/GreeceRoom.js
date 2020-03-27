@@ -195,7 +195,7 @@ export default class GreeceRoom {
     moveCamera()
     {
         this.camera.position.x = 7
-        this.camera.position.y = 1
+        this.camera.position.y = 2
         this.camera.position.z = 0
         this.camera.rotation.y = 1.5708
 

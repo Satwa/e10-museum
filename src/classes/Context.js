@@ -35,6 +35,7 @@ export default class Context {
         this.nbCurrentModelImport = 0
         this.nbModelImport = 0
         this.countHover = 0
+        this.isLoaded = false
         this.renderer = renderer
         this.camera = camera
         this.scene = scene
@@ -132,13 +133,9 @@ export default class Context {
         const clock = new THREE.Clock();
         const loop = () => {
             window.requestAnimationFrame(loop)
-            if(this.greeceRoom != undefined){
-                this.greeceRoom.group.visible ? this.greeceRoom.hoverStatue() : null
-            }
-            if(this.renaissanceRoom != undefined)
-            {
-                this.renaissanceRoom.group.visible ? this.renaissanceRoom.hoverStatue() : null
-            }
+            
+            this.isLoaded ? this.greeceRoom.hoverStatue() : null
+            this.isLoaded ? this.renaissanceRoom.hoverStatue() : null
 
             // Render
             this.controls.update( clock.getDelta() );
@@ -172,6 +169,8 @@ export default class Context {
                 ease: 'Power3.easeInOut'
             }
         ).delay(1.2)
+
+        this.isLoaded = true
 
         gsap.to(
             loadingScreen,
