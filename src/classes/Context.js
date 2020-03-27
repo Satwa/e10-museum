@@ -93,6 +93,8 @@ export default class Context {
 
     async init()
     {
+        this.greeceRoom = new GreeceRoom(this.camera,this.controls,this.scene,this)
+        this.renaissanceRoom = new RenaissanceRoom(this.camera, this.controls,this.scene,this)
 
         /**
          * Loop
@@ -101,48 +103,44 @@ export default class Context {
         const loop = () => {
             window.requestAnimationFrame(loop)
             
-            this.isLoaded ? this.greeceRoom.hoverStatue() : null
-            this.isLoaded ? this.renaissanceRoom.hoverStatue() : null
+            this.greeceRoom.isLoaded ? this.greeceRoom.hoverStatue() : null
+            this.renaissanceRoom.isLoaded ? this.renaissanceRoom.hoverStatue() : null
 
             // Render
             this.controls.update( clock.getDelta() );
             this.renderer.render(this.scene, this.camera)
         }
         loop()
+        window.addEventListener("mouseover", (_event) => {
+           if(this.greeceRoom.statueOn == null && this.renaissanceRoom.statueOn == null ){ this.controls.enabled = true}
+        })
 
-        this.greeceRoom = new GreeceRoom(this.camera,this.controls,this.scene,this)
-        await this.greeceRoom.init()
-        this.renaissanceRoom = new RenaissanceRoom(this.camera, this.controls,this.scene,this)
-
+        window.addEventListener("mouseout", (_event) => {
+            this.controls.enabled = false
+        })
+        await this.greeceRoom.createRoom()
+        await this.renaissanceRoom.createRoom()
         this.greeceRoom.group.position.x = 0
         this.scene.add(this.greeceRoom.group)
-
-        const _column = new Column(null, new THREE.Vector3(), 10, this)
-
-        const _corridor = new THREE.BoxGeometry(4, 4.8, 8)
-        const corridor = new HoleDigger(_corridor, new THREE.BoxGeometry(3.95, 4.75, 8), new THREE.MeshStandardMaterial({
-            map: _column.columnTexture,
-            aoMap: _column.columnOccTexture,
-            normalMap: _column.columnNormalTexture
-        }))
-
-        const corridorLight = new THREE.PointLight(0xffcc00, .5)
-        corridorLight.position.set(10, 3.8, 0)
-        this.scene.add(corridorLight)
-
-        corridor.getMesh().position.x = 10
-        corridor.getMesh().position.y = 2.4
-        corridor.getMesh().rotation.y = Math.PI / 2
-
-        this.scene.add(corridor.getMesh())
-
-        //Renaissance Room
-        this.renaissanceRoom.group.position.x = 20
-        this.renaissanceRoom.group.position.z = 15
-        this.renaissanceRoom.group.rotation.y = -Math.PI / 2
-        // this.renaissanceRoom.group.visible = false
         this.scene.add(this.renaissanceRoom.group)
 
+
+        this.greeceRoom.moveCamera()
+        this.updateProgressePourcent()
+
+        await this.greeceRoom.init()
+        this.renaissanceRoom.init()
+
+
+        this.scene.add(this.greeceRoom.group)
+
+
+
+
+
+
+        // this.renaissanceRoom.group.visible = false
+        this.scene.add(this.renaissanceRoom.group)
 
 
 
@@ -184,7 +182,6 @@ export default class Context {
             }
         ).delay(1.2)
 
-        this.isLoaded = true
 
         gsap.to(
             loadingScreen,

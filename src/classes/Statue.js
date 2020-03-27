@@ -87,6 +87,7 @@ export default class Class {
                     addTo.group.add(statue)
                    // this.context.updateProgressePourcent()
                     this.context.nbCurrentModelImport++
+                    this.context.greeceRoom.isLoaded = true
                     resolve('succes')
                 },
                 (_gltf) =>

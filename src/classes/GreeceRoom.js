@@ -24,24 +24,20 @@ export default class GreeceRoom {
         this.statueOn = null;
         this.groupLightOn = new THREE.Group()
         this.context.nbModelImport += 6
+        this.isLoaded  = false
     }
 
     async init()
     {
-         await this.createRoom()
-        this.context.scene.add(this.group)
-        this.moveCamera()
-        this.context.updateProgressePourcent()
+
 
 
         await this.createAllStatue()
         return new Promise((resolve) =>
         {
-            console.log(this.context.nbCurrentModelImport , this.context.nbModelImport)
             if(this.context.nbCurrentModelImport == this.context.nbModelImport)
             {
-                window.addEventListener('click',()=>{this.showModel()})
-                document.querySelector('.buttonQuitMenu').addEventListener('click', ()=> {this.quitShowingStatue()})
+
                 resolve('load')
             }
         })
@@ -51,6 +47,9 @@ export default class GreeceRoom {
 
     async createRoom()
     {
+        window.addEventListener('click',()=>{this.showModel()})
+        document.querySelector('.buttonQuitMenu').addEventListener('click', ()=> {this.quitShowingStatue()})
+
         return new Promise((resolve) => {
 
             const floorColorTexture = this.context.textureLoader.load(floorColorSource)
