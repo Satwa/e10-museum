@@ -5,8 +5,8 @@ import columnNormalSource from '../textures/concrete2/airih-9md6o.dds'
 import columnOccSource from '../textures/concrete2/aacfz-6m3ue.dds'
 
 export default class Column{
-    constructor(addTo, position, height = 10){
-        this.context = addTo.context
+    constructor(addTo, position, height = 10, context){
+        this.context = context ? context : addTo.context
 
         this.columnTexture = this.context.textureDSSLoader.load(columnSource)
         this.columnTexture.repeat.x = 20
@@ -65,6 +65,6 @@ export default class Column{
         })
 
         this.group.position.set(position.x, position.y + height/2, position.z)
-        addTo.group.add(this.group)
+        if(addTo !== null) addTo.group.add(this.group)
     }
 }

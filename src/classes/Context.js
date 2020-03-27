@@ -7,7 +7,8 @@ import { CSSPlugin } from 'gsap/CSSPlugin'
 import GreeceRoom from "./GreeceRoom";
 import RenaissanceRoom from "./RenaissanceRoom";
 import {FirstPersonControls} from "./FirstPersonControls";
-import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
+import HoleDigger from './Hole'
+import Column from './Column'
 gsap.registerPlugin(CSSPlugin)
 
 
@@ -34,6 +35,7 @@ export default class Context {
         this.nbCurrentModelImport = 0
         this.nbModelImport = 0
         this.countHover = 0
+        this.isLoaded = false
         this.renderer = renderer
         this.camera = camera
         this.scene = scene
@@ -91,43 +93,55 @@ export default class Context {
 
     async init()
     {
+
         /**
          * Loop
          */
         const clock = new THREE.Clock();
         const loop = () => {
             window.requestAnimationFrame(loop)
-            if(this.greeceRoom != undefined){
-                this.greeceRoom.group.visible ? this.greeceRoom.hoverStatue() : null
-            }
-            if(this.renaissanceRoom != undefined)
-            {
-                this.renaissanceRoom.group.visible ? this.renaissanceRoom.hoverStatue() : null
-            }
+            
+            this.isLoaded ? this.greeceRoom.hoverStatue() : null
+            this.isLoaded ? this.renaissanceRoom.hoverStatue() : null
 
-
-            // camera.lookAt(scene.position)
             // Render
             this.controls.update( clock.getDelta() );
             this.renderer.render(this.scene, this.camera)
         }
         loop()
-        // Greece Room
+
         this.greeceRoom = new GreeceRoom(this.camera,this.controls,this.scene,this)
         await this.greeceRoom.init()
-        console.log("want to go ")
         this.renaissanceRoom = new RenaissanceRoom(this.camera, this.controls,this.scene,this)
 
         this.greeceRoom.group.position.x = 0
         this.scene.add(this.greeceRoom.group)
 
+        const _column = new Column(null, new THREE.Vector3(), 10, this)
 
-         //Renaissance Room
-        this.renaissanceRoom.group.position.x = 0
-        this.renaissanceRoom.group.visible = false
+        const _corridor = new THREE.BoxGeometry(4, 4.8, 8)
+        const corridor = new HoleDigger(_corridor, new THREE.BoxGeometry(3.95, 4.75, 8), new THREE.MeshStandardMaterial({
+            map: _column.columnTexture,
+            aoMap: _column.columnOccTexture,
+            normalMap: _column.columnNormalTexture
+        }))
+
+        const corridorLight = new THREE.PointLight(0xffcc00, .5)
+        corridorLight.position.set(10, 3.8, 0)
+        this.scene.add(corridorLight)
+
+        corridor.getMesh().position.x = 10
+        corridor.getMesh().position.y = 2.4
+        corridor.getMesh().rotation.y = Math.PI / 2
+
+        this.scene.add(corridor.getMesh())
+
+        //Renaissance Room
+        this.renaissanceRoom.group.position.x = 20
+        this.renaissanceRoom.group.position.z = 15
+        this.renaissanceRoom.group.rotation.y = -Math.PI / 2
+        // this.renaissanceRoom.group.visible = false
         this.scene.add(this.renaissanceRoom.group)
-
-
 
 
 
@@ -169,6 +183,8 @@ export default class Context {
                 ease: 'Power3.easeInOut'
             }
         ).delay(1.2)
+
+        this.isLoaded = true
 
         gsap.to(
             loadingScreen,

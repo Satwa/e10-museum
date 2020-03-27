@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import {TweenLite} from 'gsap/all'
-import Context from './Context'
 import Statue from './Statue'
 import floorColorSource from './../textures/floor3/wood-flooring-026_d.png'
 import floorBumpSource from './../textures/floor3/wood-flooring-026_b.png'
@@ -9,6 +8,7 @@ import wallNormalSource from './../textures/floor2/a8wye-2vua2.dds'
 import Frame from './Frame'
 import Column from './Column'
 import Bench from './Bench'
+import HoleDigger from './Hole'
 
 export default class RenaissanceRoom {
     constructor(camera, controls, scene,context) {
@@ -135,14 +135,13 @@ export default class RenaissanceRoom {
             normalMap: wallNormalTexture
         })
         const roofMaterial = new THREE.MeshStandardMaterial({
-            map: floorColorTexture,
-            bumpMap: floorBumpTexture,
-            roughnessMap: floorRoughnessTexture,
+            color: 0x5e1612,
+            normalMap: wallNormalTexture,
             side: THREE.BackSide
         })
         
         // new THREE.PlaneGeometry()
-        const wallNSGeometry = new THREE.PlaneGeometry(30, 6, 20, 5)
+        const wallNSGeometry = new THREE.BoxGeometry(30, 6,.1, 20, 5)//new THREE.PlaneGeometry(30, 6, 20, 5)
         const wallEOGeometry = new THREE.PlaneGeometry(10, 6, 20, 5)
         const floorGeometry = new THREE.PlaneGeometry(30, 10, 5, 5)
 
@@ -163,17 +162,19 @@ export default class RenaissanceRoom {
         roof.scale.y = 3
 
         const wallN = new THREE.Mesh(wallNSGeometry, wallMaterial)
-        wallN.position.z = -5
+        wallN.position.z = -5.05
         wallN.position.y = 3
         wallN.receiveShadow = true
         wallN.castShadow = false
 
-        const wallS = new THREE.Mesh(wallNSGeometry, wallMaterial)
-        wallS.position.z = 5
-        wallS.position.y = 3
-        wallS.rotation.x = -1.5708 * 2
-        wallS.receiveShadow = true
-        wallS.castShadow = false
+        // Diggy digger
+        const wallS = new HoleDigger(wallNSGeometry.clone(), new THREE.BoxGeometry(3.35, 4, .1), wallMaterial, new THREE.Vector3(-12.5, 1))
+        // const wallS = new THREE.Mesh(wallNSGeometry, wallMaterial)
+        wallS.getMesh().position.z = 5.05
+        wallS.getMesh().position.y = 3
+        wallS.getMesh().rotation.x = -Math.PI
+        wallS.getMesh().receiveShadow = true
+        wallS.getMesh().castShadow = false
 
         const wallE = new THREE.Mesh(wallEOGeometry, wallMaterial)
         wallE.position.y = + 3
@@ -200,7 +201,14 @@ export default class RenaissanceRoom {
         lightRoom1.shadow.camera.near = 0.2
         lightRoom1.shadow.camera.far = 100
 
-        const col1 = new Column(this, new THREE.Vector3(3, 0, 3), 15)
+        new Column(this, new THREE.Vector3(10, 0, 3), 12)
+        new Column(this, new THREE.Vector3(10, 0, -3), 12)
+
+        new Column(this, new THREE.Vector3(0, 0, 3), 12)
+        new Column(this, new THREE.Vector3(0, 0, -3), 12)
+
+        new Column(this, new THREE.Vector3(-10, 0, 3), 12)
+        new Column(this, new THREE.Vector3(-10, 0, -3), 12)
 
         const room = new THREE.Group()
 
@@ -208,7 +216,7 @@ export default class RenaissanceRoom {
         room.add(floor)
         room.add(roof)
         room.add(wallN)
-        room.add(wallS)
+        room.add(wallS.getMesh())
         room.add(wallE)
         room.add(wallO)
         room.scale.set(1.2, 1.2, 1.2)
@@ -217,7 +225,7 @@ export default class RenaissanceRoom {
 
     moveCamera() {
         this.camera.position.x = 7
-        this.camera.position.y = 1
+        this.camera.position.y = 2
         this.camera.position.z = 0
         this.camera.rotation.y = 1.5708
 
@@ -266,7 +274,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1, 1, 1),
             new THREE.Vector3(11.51, 1.2, -.4),
             new THREE.Vector3(0, -Math.PI / 2),
-            new THREE.Vector3(9, 2, 2),
+            new THREE.Vector3(19, 2, 25),
             new THREE.Vector3(0, -Math.PI / 2),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#monaLisa"),
@@ -280,7 +288,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1.4, 1.4, 1.4),
             new THREE.Vector3(-16.3, 1.5, 0),
             new THREE.Vector3(0, Math.PI / 2),
-            new THREE.Vector3(-12, 1.5, 2),
+            new THREE.Vector3(22, 3, 1.5),
             new THREE.Vector3(0, Math.PI / 2),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#nocesCana"),
@@ -297,7 +305,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1.3, 1.3, 1.3),
             new THREE.Vector3(-12, .8, -4.4),
             new THREE.Vector3(),
-            new THREE.Vector3(-14, 2, -2),
+            new THREE.Vector3(23, 2, 2.5),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#deposition"),
@@ -310,7 +318,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1.3, 1.3, 1.3),
             new THREE.Vector3(-8, .8, -4.4),
             new THREE.Vector3(),
-            new THREE.Vector3(-10, 2, -2),
+            new THREE.Vector3(21, 3, 2),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#angeGardien"),
@@ -323,7 +331,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1, 1, 1),
             new THREE.Vector3(-3.3, 1, -4.75),
             new THREE.Vector3(),
-            new THREE.Vector3(0, 2, -2),
+            new THREE.Vector3(23, 2, -4.75),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#couronnementVierge"),
@@ -337,7 +345,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1, 1, 1),
             new THREE.Vector3(2, 1, -4.75),
             new THREE.Vector3(),
-            new THREE.Vector3(0, 2, -2),
+            new THREE.Vector3(23, 2, 16),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#viergeEnfantStAnne"),
@@ -350,7 +358,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1, 1, 1),
             new THREE.Vector3(4, 1, -4.75),
             new THREE.Vector3(),
-            new THREE.Vector3(2, 2, -2),
+            new THREE.Vector3(23, 2, 18),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#portraitVieillardJeune"),
@@ -363,7 +371,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1, 1, 1),
             new THREE.Vector3(8, 1, -4.75),
             new THREE.Vector3(),
-            new THREE.Vector3(6, 2, -2),
+            new THREE.Vector3(22, 2, 22),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#pelerinsEmmaus"),
@@ -376,7 +384,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1.3, 1.3, 1.3),
             new THREE.Vector3(12, .8, -4.4),
             new THREE.Vector3(),
-            new THREE.Vector3(10, 2, -2),
+            new THREE.Vector3(23, 2, 26),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#hommeGant"),
@@ -393,7 +401,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1, 1, 1),
             new THREE.Vector3(8, 1, 4.75),
             new THREE.Vector3(0, Math.PI, 0),
-            new THREE.Vector3(6, 2, 2),
+            new THREE.Vector3(18, 2, 21),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#deuxChiensChasses"),
@@ -420,7 +428,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1.3, 1.3, 1.3),
             new THREE.Vector3(2, .8, 4.4),
             new THREE.Vector3(0, Math.PI, 0),
-            new THREE.Vector3(0, 2, 2),
+            new THREE.Vector3(16, 2, 27),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#charlesJosephCrowle"),
@@ -434,7 +442,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1, 1, 1),
             new THREE.Vector3(-2, 1, 4.75),
             new THREE.Vector3(0, Math.PI, 0),
-            new THREE.Vector3(0, 2, 2),
+            new THREE.Vector3(17, 2, 13),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#heliodoreTemple"),
@@ -447,7 +455,7 @@ export default class RenaissanceRoom {
             new THREE.Vector3(1.3, 1.3, 1.3),
             new THREE.Vector3(-6, .8, 4.4),
             new THREE.Vector3(0, Math.PI, 0),
-            new THREE.Vector3(-3.5, 2, 2),
+            new THREE.Vector3(17, 2, 10),
             new THREE.Vector3(0, -Math.PI, 0),
             new THREE.Vector3(3, 3, 3),
             document.querySelector("#adorationBergers"),

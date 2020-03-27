@@ -2,6 +2,7 @@ import Context from './Context'
 import {TimelineMax, TweenLite} from "gsap/gsap-core"
 import * as THREE from "three"
 import {MeshStandardMaterial} from 'three'
+import RenaissanceRoom from './RenaissanceRoom'
 
 export default class Frame {
     /**
@@ -44,7 +45,7 @@ export default class Frame {
 
     async update(addToRoom, path, scale, position, rotation, positionView, rotationView, scaleTo) {
         this.addPainting(addToRoom, path)
-        
+
         this.group.scale.set(scale.x, scale.y, scale.z)
         this.group.position.set(position.x, position.y, position.z)
         this.group.rotation.set(rotation.x, rotation.y, rotation.z)
@@ -98,11 +99,13 @@ export default class Frame {
     }
 
     animateFrame(camera) {
+        console.log(this.roomType)
         TweenLite.to(this.group.position, 1, {
             y: +1,
             ease: 'Power3.easeInOut'
         })
 
+        // As frames are only used in RenaissanceRoom and in a logic to save time, we hardly add the offsets
         TweenLite.to(camera.position, 2, {
             x: this.positionView.x,
             y: this.positionView.y,
@@ -112,7 +115,7 @@ export default class Frame {
 
         TweenLite.to(camera.rotation, 2, {
             x: this.rotationView.x,
-            y: this.rotationView.y,
+            y: this.rotationView.y - Math.PI / 2,
             z: this.rotationView.z,
             ease: 'Power3.easeInOut'
         })
