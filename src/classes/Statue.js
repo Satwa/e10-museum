@@ -85,7 +85,8 @@ export default class Class {
                             scene:statue,
                         })
                     addTo.group.add(statue)
-                    this.context.updateProgressePourcent()
+                   // this.context.updateProgressePourcent()
+                    this.context.nbCurrentModelImport++
                     resolve('succes')
                 },
                 (_gltf) =>

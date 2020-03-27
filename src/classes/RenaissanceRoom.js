@@ -5,7 +5,7 @@ import Statue from './Statue'
 import floorColorSource from './../textures/floor3/wood-flooring-026_d.png'
 import floorBumpSource from './../textures/floor3/wood-flooring-026_b.png'
 import floorRoughnessSource from './../textures/floor3/wood-flooring-026_r.png'
-import wallNormalSource from './../textures/floor2/Brick_wall_006_COLOR.jpg'
+import wallNormalSource from './../textures/floor2/a8wye-2vua2.dds'
 import Frame from './Frame'
 import Column from './Column'
 import Bench from './Bench'
@@ -116,7 +116,7 @@ export default class RenaissanceRoom {
         floorRoughnessTexture.repeat.x = 4
         floorRoughnessTexture.repeat.y = 4
 
-        this.wallNormalTexture = this.context.textureLoader.load(wallNormalSource)
+        this.wallNormalTexture = this.context.textureDSSLoader.load(wallNormalSource)
         const wallNormalTexture = this.wallNormalTexture
         wallNormalTexture.wrapS = THREE.RepeatWrapping
         wallNormalTexture.wrapT = THREE.RepeatWrapping

@@ -65,18 +65,19 @@ export default class Context {
     {
         let divise = this.nbModelImport
         if( divise == 0){divise = 10}
-        this.nbCurrentModelImport++
+        //this.nbCurrentModelImport++
         const progressePourcent = document.querySelector('.pourcentValue')
-        const oldValue = parseInt(progressePourcent.innerText)
-        const newValue = (this.nbCurrentModelImport*100)/ divise
-        let value = oldValue
+        //const oldValue = parseInt(progressePourcent.innerText)
+        //const newValue = (this.nbCurrentModelImport*100)/ divise
+      //  let value = oldValue
+        let value = 0
         let int =  setInterval(()=>
         {
-            if(value < newValue)
-            {
+         //   if(value < newValue)
+        //    {
                 value++
                 progressePourcent.innerText = value
-            }
+         //   }
             if(value >= 100)
             {
 
@@ -90,21 +91,6 @@ export default class Context {
 
     async init()
     {
-
-        // Greece Room
-        this.greeceRoom = new GreeceRoom(this.camera,this.controls,this.scene,this)
-        await this.greeceRoom.init()
-        this.renaissanceRoom = new RenaissanceRoom(this.camera, this.controls,this.scene,this)
-
-        this.greeceRoom.group.position.x = 0
-        this.scene.add(this.greeceRoom.group)
-
-
-         //Renaissance Room
-        this.renaissanceRoom.group.position.x = 0
-        this.renaissanceRoom.group.visible = false
-        this.scene.add(this.renaissanceRoom.group)
-
         /**
          * Loop
          */
@@ -119,12 +105,30 @@ export default class Context {
                 this.renaissanceRoom.group.visible ? this.renaissanceRoom.hoverStatue() : null
             }
 
+
             // camera.lookAt(scene.position)
             // Render
             this.controls.update( clock.getDelta() );
             this.renderer.render(this.scene, this.camera)
         }
         loop()
+        // Greece Room
+        this.greeceRoom = new GreeceRoom(this.camera,this.controls,this.scene,this)
+        await this.greeceRoom.init()
+        console.log("want to go ")
+        this.renaissanceRoom = new RenaissanceRoom(this.camera, this.controls,this.scene,this)
+
+        this.greeceRoom.group.position.x = 0
+        this.scene.add(this.greeceRoom.group)
+
+
+         //Renaissance Room
+        this.renaissanceRoom.group.position.x = 0
+        this.renaissanceRoom.group.visible = false
+        this.scene.add(this.renaissanceRoom.group)
+
+
+
 
 
 

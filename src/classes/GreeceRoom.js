@@ -27,14 +27,18 @@ export default class GreeceRoom {
 
     async init()
     {
-        this.createRoom()
+         await this.createRoom()
+        this.context.scene.add(this.group)
+        this.moveCamera()
+        this.context.updateProgressePourcent()
+
+
         await this.createAllStatue()
         return new Promise((resolve) =>
         {
-            console.log(this.context.nbCurrentModelImport, this.context.nbModelImport)
+            console.log(this.context.nbCurrentModelImport , this.context.nbModelImport)
             if(this.context.nbCurrentModelImport == this.context.nbModelImport)
             {
-                this.moveCamera()
                 window.addEventListener('click',()=>{this.showModel()})
                 document.querySelector('.buttonQuitMenu').addEventListener('click', ()=> {this.quitShowingStatue()})
                 resolve('load')
@@ -44,152 +48,155 @@ export default class GreeceRoom {
 
     }
 
-    createRoom()
+    async createRoom()
     {
+        return new Promise((resolve) => {
 
-        const floorColorTexture = this.context.textureLoader.load(floorColorSource)
-        floorColorTexture.wrapS = THREE.RepeatWrapping
-        floorColorTexture.wrapT = THREE.RepeatWrapping
-        floorColorTexture.repeat.x = 4
-        floorColorTexture.repeat.y = 4
+            const floorColorTexture = this.context.textureLoader.load(floorColorSource)
+            floorColorTexture.wrapS = THREE.RepeatWrapping
+            floorColorTexture.wrapT = THREE.RepeatWrapping
+            floorColorTexture.repeat.x = 4
+            floorColorTexture.repeat.y = 4
 
-        const floorNormalTexture = this.context.textureLoader.load(floorNormalSource)
-        floorNormalTexture.wrapS = THREE.RepeatWrapping
-        floorNormalTexture.wrapT = THREE.RepeatWrapping
-        floorNormalTexture.repeat.x = 4
-        floorNormalTexture.repeat.y = 4
+            const floorNormalTexture = this.context.textureLoader.load(floorNormalSource)
+            floorNormalTexture.wrapS = THREE.RepeatWrapping
+            floorNormalTexture.wrapT = THREE.RepeatWrapping
+            floorNormalTexture.repeat.x = 4
+            floorNormalTexture.repeat.y = 4
 
-        const wallColorTexture = this.context.textureDSSLoader.load(wallColorSource)
-        wallColorTexture.wrapS = THREE.RepeatWrapping
-        wallColorTexture.wrapT = THREE.RepeatWrapping
-        wallColorTexture.repeat.x = 4
-        wallColorTexture.repeat.y = 4
+            const wallColorTexture = this.context.textureDSSLoader.load(wallColorSource)
+            wallColorTexture.wrapS = THREE.RepeatWrapping
+            wallColorTexture.wrapT = THREE.RepeatWrapping
+            wallColorTexture.repeat.x = 4
+            wallColorTexture.repeat.y = 4
 
-        const wallNormalTexture = this.context.textureDSSLoader.load(wallNormalSource)
-        wallNormalTexture.wrapS = THREE.RepeatWrapping
-        wallNormalTexture.wrapT = THREE.RepeatWrapping
-        wallNormalTexture.repeat.x = 4
-        wallNormalTexture.repeat.y = 4
+            const wallNormalTexture = this.context.textureDSSLoader.load(wallNormalSource)
+            wallNormalTexture.wrapS = THREE.RepeatWrapping
+            wallNormalTexture.wrapT = THREE.RepeatWrapping
+            wallNormalTexture.repeat.x = 4
+            wallNormalTexture.repeat.y = 4
 
-        const graniteColorTexture = this.context.textureDSSLoader.load(graniteColorSource)
-        wallNormalTexture.wrapS = THREE.RepeatWrapping
-        wallNormalTexture.wrapT = THREE.RepeatWrapping
-        wallNormalTexture.repeat.x = 4
-        wallNormalTexture.repeat.y = 4
+            const graniteColorTexture = this.context.textureDSSLoader.load(graniteColorSource)
+            wallNormalTexture.wrapS = THREE.RepeatWrapping
+            wallNormalTexture.wrapT = THREE.RepeatWrapping
+            wallNormalTexture.repeat.x = 4
+            wallNormalTexture.repeat.y = 4
 
-        const graniteNormalTexture = this.context.textureDSSLoader.load(graniteNormalSource)
-        wallNormalTexture.wrapS = THREE.RepeatWrapping
-        wallNormalTexture.wrapT = THREE.RepeatWrapping
-        wallNormalTexture.repeat.x = 4
-        wallNormalTexture.repeat.y = 4
-
-
-
-        const wallMaterial = new THREE.MeshStandardMaterial(
-            {
-                map: wallColorTexture,
-                normalMap:wallNormalTexture
-            }
-        )
-
-        const floorMaterial = new THREE.MeshStandardMaterial(
-            {
-                map: floorColorTexture,
-                normalMap: floorNormalTexture,
-    }
-        )
-        const graniteMaterial = new THREE.MeshStandardMaterial(
-            {
-                map: graniteColorTexture,
-                normalMap: graniteNormalTexture
-            }
-        )
+            const graniteNormalTexture = this.context.textureDSSLoader.load(graniteNormalSource)
+            wallNormalTexture.wrapS = THREE.RepeatWrapping
+            wallNormalTexture.wrapT = THREE.RepeatWrapping
+            wallNormalTexture.repeat.x = 4
+            wallNormalTexture.repeat.y = 4
 
 
-        const wallNSGeometry = new THREE.PlaneGeometry(10,6,20,5)
-        const wallEOGeometry = new THREE.PlaneGeometry(10,6,20,5)
-        const floorGeometry = new THREE.PlaneGeometry(10,10,5,5)
-        const consoleGeometry = new THREE.BoxGeometry(2,1,1.6)
-        const console2Geometry = new THREE.BoxGeometry(1,1.3,1.4)
 
-        const floor = new THREE.Mesh(floorGeometry,floorMaterial)
-        floor.rotation.x = -1.5708
-        floor.receiveShadow = true
-        floor.castShadow = false
+            const wallMaterial = new THREE.MeshStandardMaterial(
+                {
+                    map: wallColorTexture,
+                    normalMap: wallNormalTexture
+                }
+            )
 
-
-        const roof = new THREE.Mesh(floorGeometry,floorMaterial)
-        roof.position.y = 6
-        roof.rotation.x = 1.5708
-
-        const wallN = new THREE.Mesh(wallNSGeometry, wallMaterial)
-        wallN.position.z  = -5
-        wallN.position.y = 3
-        wallN.receiveShadow = true
-        wallN.castShadow = false
-
-
-        const wallS = new THREE.Mesh(wallNSGeometry, wallMaterial)
-        wallS.position.z  = 5
-        wallS.position.y =  3
-        wallS.rotation.x = -1.5708 * 2
-        wallS.receiveShadow = true
-        wallS.castShadow = false
+            const floorMaterial = new THREE.MeshStandardMaterial(
+                {
+                    map: floorColorTexture,
+                    normalMap: floorNormalTexture,
+                }
+            )
+            const graniteMaterial = new THREE.MeshStandardMaterial(
+                {
+                    map: graniteColorTexture,
+                    normalMap: graniteNormalTexture
+                }
+            )
 
 
-        const wallE =  new THREE.Mesh(wallEOGeometry, wallMaterial)
-        wallE.position.y = + 3
-        wallE.position.x = - 5
-        wallE.rotation.y = 1.5708
-        wallE.receiveShadow = true
-        wallE.castShadow = false
+            const wallNSGeometry = new THREE.PlaneGeometry(10, 6, 20, 5)
+            const wallEOGeometry = new THREE.PlaneGeometry(10, 6, 20, 5)
+            const floorGeometry = new THREE.PlaneGeometry(10, 10, 5, 5)
+            const consoleGeometry = new THREE.BoxGeometry(2, 1, 1.6)
+            const console2Geometry = new THREE.BoxGeometry(1, 1.3, 1.4)
+
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial)
+            floor.rotation.x = -1.5708
+            floor.receiveShadow = true
+            floor.castShadow = false
 
 
-        const wallO =  new THREE.Mesh(wallEOGeometry,wallMaterial)
-        wallO.position.y = + 3
-        wallO.position.x =  5
-        wallO.rotation.y = -1.5708
-        wallO.castShadow = false
-        wallO.receiveShadow = true
+            const roof = new THREE.Mesh(floorGeometry, floorMaterial)
+            roof.position.y = 6
+            roof.rotation.x = 1.5708
 
-        const consoleStatue = new THREE.Mesh(consoleGeometry,graniteMaterial)
-        consoleStatue.position.z = -3.37
-
-        const console2Statue = new THREE.Mesh(console2Geometry,graniteMaterial)
-        console2Statue.position.x = -3.7
-        console2Statue.position.z = 3.45
-        console2Statue.position.y = 0
-
-        const lightRoom1 = new THREE.SpotLight(0xffcc00,0.8)
-        lightRoom1.position.y = 4.9
-        lightRoom1.position.x = 0
-        lightRoom1.position.z = 0
-        lightRoom1.penumbra = 1
-        lightRoom1.castShadow = true;
-        lightRoom1.shadow.mapSize.width = 2512;
-        lightRoom1.shadow.mapSize.height = 2512;
-        lightRoom1.shadow.camera.near = 0.2;
-        lightRoom1.shadow.camera.far = 100
-
-        new Column(this, new THREE.Vector3(2.5, 0, 3.8))
-        new Column(this, new THREE.Vector3(-2.5, 0, 3.8))
-        new Column(this, new THREE.Vector3(2.5, 0, -3.8))
-        new Column(this, new THREE.Vector3(-2.5, 0, -3.8))
+            const wallN = new THREE.Mesh(wallNSGeometry, wallMaterial)
+            wallN.position.z = -5
+            wallN.position.y = 3
+            wallN.receiveShadow = true
+            wallN.castShadow = false
 
 
-        const room = new THREE.Group()
+            const wallS = new THREE.Mesh(wallNSGeometry, wallMaterial)
+            wallS.position.z = 5
+            wallS.position.y = 3
+            wallS.rotation.x = -1.5708 * 2
+            wallS.receiveShadow = true
+            wallS.castShadow = false
 
-        room.add(lightRoom1)
-        room.add(floor)
-        room.add(roof)
-        room.add(consoleStatue)
-        room.add(console2Statue)
-        room.add(wallN)
-        room.add(wallS)
-        room.add(wallE)
-        room.add(wallO)
-        room.scale.set(1.2,1.2,1.2)
-        this.group.add(room)
+
+            const wallE = new THREE.Mesh(wallEOGeometry, wallMaterial)
+            wallE.position.y = +3
+            wallE.position.x = -5
+            wallE.rotation.y = 1.5708
+            wallE.receiveShadow = true
+            wallE.castShadow = false
+
+
+            const wallO = new THREE.Mesh(wallEOGeometry, wallMaterial)
+            wallO.position.y = +3
+            wallO.position.x = 5
+            wallO.rotation.y = -1.5708
+            wallO.castShadow = false
+            wallO.receiveShadow = true
+
+            const consoleStatue = new THREE.Mesh(consoleGeometry, graniteMaterial)
+            consoleStatue.position.z = -3.37
+
+            const console2Statue = new THREE.Mesh(console2Geometry, graniteMaterial)
+            console2Statue.position.x = -3.7
+            console2Statue.position.z = 3.45
+            console2Statue.position.y = 0
+
+            const lightRoom1 = new THREE.SpotLight(0xffcc00, 0.8)
+            lightRoom1.position.y = 4.9
+            lightRoom1.position.x = 0
+            lightRoom1.position.z = 0
+            lightRoom1.penumbra = 1
+            lightRoom1.castShadow = true;
+            lightRoom1.shadow.mapSize.width = 2512;
+            lightRoom1.shadow.mapSize.height = 2512;
+            lightRoom1.shadow.camera.near = 0.2;
+            lightRoom1.shadow.camera.far = 100
+
+            new Column(this, new THREE.Vector3(2.5, 0, 3.8))
+            new Column(this, new THREE.Vector3(-2.5, 0, 3.8))
+            new Column(this, new THREE.Vector3(2.5, 0, -3.8))
+            new Column(this, new THREE.Vector3(-2.5, 0, -3.8))
+
+
+            const room = new THREE.Group()
+
+            room.add(lightRoom1)
+            room.add(floor)
+            room.add(roof)
+            room.add(consoleStatue)
+            room.add(console2Statue)
+            room.add(wallN)
+            room.add(wallS)
+            room.add(wallE)
+            room.add(wallO)
+            room.scale.set(1.2, 1.2, 1.2)
+            this.group.add(room)
+            resolve('finish')
+        })
     }
 
     moveCamera()
@@ -225,11 +232,9 @@ export default class GreeceRoom {
             await spartacus.update(this,'/models/spartacus/scene.gltf',1,0.085,0,-4.2,-3.7,-1.5708,0,-1.0708, 1.9721,2.4760, -1.5317,0,0.41728,0,0.07,"z","left",document.querySelector('#spartacus'),1.3 )
             await venusMilo.update(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'),1)
             await nikeSamo.update(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'),1)
-            await laLoire.update(this,'/models/la_loire_et_le_loiret/scene.gltf',4,0.13,13.4,4.85,0.7,0,0,-1.5708, -4.047,2.18015, -1.9339, -0.5791,0.2609,0.1671, 0.1,"z","left",document.querySelector('#NikeSamothrace'),0.3)
-            await marcusAurelius.update(this,'/models/marcus_aurelius/scene.gltf',1,0.18,1.5,-4.4,4,-1.5708,0,1.5708 *2, 0.8386,2.3763, 1.8723, -2.6339,0.6549,2.8077, 0.1,"z","left",document.querySelector('#NikeSamothrace'),0.3)
+            await laLoire.update(this,'/models/la_loire_et_le_loiret/scene.gltf',4,0.13,13.4,4.85,0.7,0,0,-1.5708, -4.047,2.18015, -1.9339, -0.5791,0.2609,0.1671, 0.1,"z","left",document.querySelector('#laLoire'),0.3)
+            await marcusAurelius.update(this,'/models/marcus_aurelius/scene.gltf',1,0.18,1.5,-4.4,4,-1.5708,0,1.5708 *2, 0.8386,2.3763, 1.8723, -2.6339,0.6549,2.8077, 0.1,"z","left",document.querySelector('#marcusAurelius'),0.3)
             resolve('load')
-            console.log(spartacus.direction)
-            console.log(marcusAurelius)
         })
     }
 
