@@ -225,11 +225,9 @@ export default class GreeceRoom {
             await spartacus.update(this,'/models/spartacus/scene.gltf',1,0.085,0,-4.2,-3.7,-1.5708,0,-1.0708, 1.9721,2.4760, -1.5317,0,0.41728,0,0.07,"z","left",document.querySelector('#spartacus'),1.3 )
             await venusMilo.update(this,'/models/venus-de-milo/scene.gltf',3,0.01,4,4,0,0,0,0,-2,2,-1,-1.5708 * 2,-1.5708 * 2,-1.5708 * 2,0.008,"z","right",document.querySelector('#venusDeMilo'),1)
             await nikeSamo.update(this,'/models/nike_of_samothrace/scene.gltf',5,3.5,0,4,4,0,1.5708 * 2,0,-2,2, 1,-1.5708 * 2,0,-1.5708 * 2,2.5,"y","left",document.querySelector('#NikeSamothrace'),1)
-            await laLoire.update(this,'/models/la_loire_et_le_loiret/scene.gltf',4,0.13,13.4,4.85,0.7,0,0,-1.5708, -4.047,2.18015, -1.9339, -0.5791,0.2609,0.1671, 0.1,"z","left",document.querySelector('#NikeSamothrace'),0.3)
-            await marcusAurelius.update(this,'/models/marcus_aurelius/scene.gltf',1,0.18,1.5,-4.4,4,-1.5708,0,1.5708 *2, 0.8386,2.3763, 1.8723, -2.6339,0.6549,2.8077, 0.1,"z","left",document.querySelector('#NikeSamothrace'),0.3)
+            await laLoire.update(this,'/models/la_loire_et_le_loiret/scene.gltf',4,0.13,13.4,4.85,0.7,0,0,-1.5708, -4.047,2.18015, -1.9339, -0.5791,0.2609,0.1671, 0.1,"z","left",document.querySelector('#loireEtLoiret'),0.3)
+            await marcusAurelius.update(this,'/models/marcus_aurelius/scene.gltf',1,0.18,1.5,-4.4,4,-1.5708,0,1.5708 *2, 0.8386,2.3763, 1.8723, -2.6339,0.6549,2.8077, 0.1,"z","left",document.querySelector('#marcusAurelius'),0.3)
             resolve('load')
-            console.log(spartacus.direction)
-            console.log(marcusAurelius)
         })
     }
 
